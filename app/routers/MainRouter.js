@@ -1,13 +1,9 @@
-import { createAppContainer } from "react-navigation";
+import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { YellowBox } from 'react-native';
-import { createStackNavigator } from "react-navigation-stack";
-import { createBottomTabNavigator } from "react-navigation-tabs";
-import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 
-// Main screens
-import Dashboard from "../views/Dashboard";
-import Messages from "../views/Messages";
-import Profile from "../views/Profile";
+// Routers
+import AuthRouter from "./AuthRouter";
+import AppRouter from "./AppRouter";
 
 // Temp solution, surely will be replaced later
 //TODO:CHECK NOT USING THIS LIFECYCLE METHODS. Ignoring change of lifecycle react-native
@@ -16,24 +12,13 @@ YellowBox.ignoreWarnings([
   'Warning: componentWillReceiveProps is deprecated',
 ]);
 
-const MainRouter = createBottomTabNavigator(
+const MainRouter = createSwitchNavigator(
   {
-    Dashboard,
-    Messages,
-    Profile
+    Auth: AuthRouter,
+    App: AppRouter,
   },
   {
-    initialRouteName: "Dashboard",
-    lazy: true,
-    defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: '#f4511e',
-      },
-      headerTintColor: '#fff',
-      headerTitleStyle: {
-        fontWeight: 'bold',
-      },
-    },
+    initialRouteName: "App"
   }
 );
 
