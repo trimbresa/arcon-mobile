@@ -45,7 +45,7 @@ export default StyleSheet.create({
     paddingBottom: 5
   },
   postBodyTxt: {
-    fontSize: 16,
+    fontSize: 15,
     fontFamily: "Montserrat-Medium",
     color: colors.black
   },
