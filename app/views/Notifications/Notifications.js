@@ -1,36 +1,65 @@
-import React, { Component, Fragment } from "react";
-import {View, Text, SafeAreaView, StatusBar, ScrollView} from "react-native";
-import { createStackNavigator } from "react-navigation-stack";
-import { createAppContainer } from "react-navigation";
+import React, {Component, Fragment} from "react";
+import {
+  SafeAreaView,
+  StatusBar,
+  SectionList,
+} from "react-native";
+import {createStackNavigator, HeaderBackButton} from "react-navigation-stack";
+import {createAppContainer} from "react-navigation";
+
+// Components
+import SectionTitle from "../../components/Blocks/SectionTitle";
+import SectionItem from "../../components/Blocks/SectionItem";
 
 // Styles
-import NotificationsStyles from "./assets/styles/notificationsStyles";
+import notificationsStyles from "./assets/styles/notificationsStyles";
+
+// Dummy data
+import DATA from "./dummyData";
 
 class Notifications extends Component {
-  static navigationOptions = {
-    title: "Notifications",
-  }
+  static navigationOptions = ({navigation}) => {
+    let {params} = navigation.state;
+
+    return {
+      title: "Notifications",
+      headerLeft:(<HeaderBackButton onPress={navigation.goBack}/>),
+      ...params,
+    };
+  };
 
   render() {
     return (
       <Fragment>
         <StatusBar barStyle="dark-content" />
-        <SafeAreaView style={NotificationsStyles.homeSafeArea}>
-          <ScrollView contentInsetAdjustmentBehavior="automatic">
-            <View style={NotificationsStyles.homeWrapper}>
-              <Text style={NotificationsStyles.text}>Welcome to Notifications!</Text>
-            </View>
-          </ScrollView>
+        <SafeAreaView style={notificationsStyles.notificationsSafeArea}>
+          <SectionList
+            sections={DATA}
+            contentContainerStyle={notificationsStyles.notificationsWrapper}
+            keyExtractor={(item, index) => item + index}
+            renderItem={({item}) => (
+              <SectionItem
+                author={item.author}
+                title={item.title}
+                type={item.type}
+                timeStamp={item.createdTime}
+                newNotif={item.unread}
+                scheduleInfo={item.scheduleInfo}
+                approved={item.approved}
+              />
+            )}
+            renderSectionHeader={({section: {title}}) => (
+              <SectionTitle title={title} />
+            )}
+          />
         </SafeAreaView>
       </Fragment>
     );
   }
 }
 
-const NotificationsRouter = createStackNavigator(
-  {
-    Notifications
-  }
-);
+const NotificationsRouter = createStackNavigator({
+  Notifications,
+});
 
 export default createAppContainer(NotificationsRouter);

@@ -1,0 +1,99 @@
+[
+  {
+    "id": "babo2244",
+    "postId": "asdadasd1111",
+    "comment": {
+      "author": "Ylli Bresa",
+      "avatar": "https://yt3.ggpht.com/a/AGF-l78waFxjfaseafH7OdstDQ30WuaEo3RI72MiwA=s900-mo-c-c0xffffffff-rj-k-no",
+      "text": "Nice post :D",
+      "likes": 3,
+      "liked": false
+    },
+    "replies": [
+      {
+        "comment": {
+          "author": "Gent Bresa",
+          "avatar": "https://yt3.ggpht.com/a/AGF-l78waFxjfaseafH7OdstDQ30WuaEo3RI72MiwA=s900-mo-c-c0xffffffff-rj-k-no",
+          "text": "I liked it too :)",
+          "likes": 1,
+          "liked": false
+        }
+      },
+      {
+        "comment": {
+          "author": "Lirim Bresa",
+          "avatar": "https://yt3.ggpht.com/a/AGF-l78waFxjfaseafH7OdstDQ30WuaEo3RI72MiwA=s900-mo-c-c0xffffffff-rj-k-no",
+          "text": "of course ;)",
+          "likes": 0,
+          "liked": false
+        }
+      }
+    ]
+  },
+  {
+    "id": "qweqxssew",
+    "postId": "asdadasd1442423",
+    "comment": {
+      "author": "Trim Bresa",
+      "avatar": "https://yt3.ggpht.com/a/AGF-l78waFxjfaseafH7OdstDQ30WuaEo3RI72MiwA=s900-mo-c-c0xffffffff-rj-k-no",
+      "text": "Make sure to like it :)",
+      "likes": 70,
+      "liked": false
+    }
+  },
+  {
+    "id": "gfnfghrth",
+    "postId": "asdadasd1442423",
+    "comment": {
+      "author": "Trim Bresa",
+      "avatar": "https://yt3.ggpht.com/a/AGF-l78waFxjfaseafH7OdstDQ30WuaEo3RI72MiwA=s900-mo-c-c0xffffffff-rj-k-no",
+      "text": "Make sure to like it :)",
+      "likes": 70,
+      "liked": false
+    }
+  },
+  {
+    "id": "rtwdsvz",
+    "postId": "asdadasd1442423",
+    "comment": {
+      "author": "Trim Bresa",
+      "avatar": "https://yt3.ggpht.com/a/AGF-l78waFxjfaseafH7OdstDQ30WuaEo3RI72MiwA=s900-mo-c-c0xffffffff-rj-k-no",
+      "text": "Make sure to like it :)",
+      "likes": 70,
+      "liked": false
+    }
+  },
+  {
+    "id": "cvxcv",
+    "postId": "asdadasd1442423",
+    "comment": {
+      "author": "Trim Bresa",
+      "avatar": "https://yt3.ggpht.com/a/AGF-l78waFxjfaseafH7OdstDQ30WuaEo3RI72MiwA=s900-mo-c-c0xffffffff-rj-k-no",
+      "text": "Make sure to like it :)",
+      "likes": 70,
+      "liked": false
+    }
+  },
+  {
+    "id": "ffsdfgsfd",
+    "postId": "asdadasd1442423",
+    "comment": {
+      "author": "Trim Bresa",
+      "avatar": "https://yt3.ggpht.com/a/AGF-l78waFxjfaseafH7OdstDQ30WuaEo3RI72MiwA=s900-mo-c-c0xffffffff-rj-k-no",
+      "text": "Make sure to like it :)",
+      "likes": 70,
+      "liked": false
+    }
+  },
+  {
+    "id": "asdasd",
+    "postId": "asdadasd1442423",
+    "comment": {
+      "author": "Trim Bresa",
+      "avatar": "https://yt3.ggpht.com/a/AGF-l78waFxjfaseafH7OdstDQ30WuaEo3RI72MiwA=s900-mo-c-c0xffffffff-rj-k-no",
+      "text": "Make sure to like it :)",
+      "likes": 70,
+      "liked": false
+    }
+  }
+]

@@ -1,15 +1,34 @@
 import React, { Component, Fragment } from "react";
-import {SafeAreaView, StatusBar, ScrollView} from "react-native";
+import {
+  SafeAreaView,
+  StatusBar,
+  FlatList,
+  View,
+  TouchableHighlight,
+  TouchableOpacity,
+  Text
+} from "react-native";
 import { createStackNavigator } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
 import moment from "moment";
+import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
+
+// Dummy data
+import dashboardData from "./dummyDashboard.json";
 
 // Components
 import NotificationsBtn from "../../components/RouterElements/NotificationsBtn/NotificationsBtn";
+import Post from "../../components/Blocks/Post";
+import SemiModal from "../../components/Blocks/SemiModal";
+
+// Other views
+import PostDetails from "../PostDetails";
+import NewPost from "../NewPost";
 
 // Styles
 import dashboardStyles from "./assets/styles/dashboardStyles";
-import Post from "../../components/Blocks/Post/Post";
+import * as colors from "../../global/styles/colors";
+import TodaysSchedule from "../../components/Lists/TodaysSchedule/TodaysSchedule.js";
 
 class Dashboard extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -19,49 +38,118 @@ class Dashboard extends Component {
     };
   }
 
+  state = {
+    showModal: true
+  }
+
+  openPostDetails = (postId, postTitle, postDescription) => {
+    this.props.navigation.navigate(`PostDetails`, { postId, postTitle, postDescription });
+  }
+
+  openNewPost = () => {
+    this.props.navigation.navigate("NewPost");
+  }
+
+  switchToSchedule = () => {
+    this.setState({
+      showModal: !this.state.showModal
+    });
+  }
+
   render() {
+    const headerComponent = (
+      <>
+        <SemiModal
+          showModal={this.state.showModal}
+          switchToSchedule={this.switchToSchedule}
+        >
+          <FlatList
+            data={[
+              {
+                id: "12323",
+                schedule: "11AM - 12AM"
+              },
+              {
+                id: "123123123",
+                schedule: "11AM - 12AM"
+              },
+              {
+                id: "342425",
+                schedule: "11AM - 12AM"
+              },
+              {
+                id: "34534521",
+                schedule: "11AM - 12AM"
+              },
+              {
+                id: "55424234",
+                schedule: "11AM - 12AM"
+              },
+            ]}
+            keyExtractor={item => item.id}
+            renderItem={({ item, key  }) => (
+              <TodaysSchedule
+                key={key}
+                icon="clock"
+                text="20 Nov, 19, 8:00AM - 29 Nov, 19, 8:00AM"
+                onPress={() => alert("Press!")}
+              />
+            )}
+          />
+        </SemiModal>
+        <TouchableOpacity
+          onPress={this.openNewPost}
+          style={dashboardStyles.newPostShortcutWrapper}
+        >
+          <Text style={dashboardStyles.newPostShortcut}>Want to share something?</Text>
+        </TouchableOpacity>
+        <View
+          style={dashboardStyles.scheduleBtnWrapper}
+        >
+          <TouchableOpacity
+            style={dashboardStyles.scheduleBtn}
+            onPress={this.switchToSchedule}
+          >
+            <SimpleLineIcons name="event" size={15} color={colors.black}/>
+            <Text
+              style={dashboardStyles.scheduleBtnText}
+            >
+              Today's Schedule
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </>
+    );
+
     return (
       <Fragment>
-        <StatusBar barStyle="dark-content" />
+        <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
         <SafeAreaView style={dashboardStyles.dashboardSafeArea}>
-          <ScrollView
+          <FlatList
+            ListHeaderComponent={headerComponent}
             contentInsetAdjustmentBehavior="automatic"
             contentContainerStyle={dashboardStyles.contentWrapper}
-          >
-            <Post
-              avatar="https://yt3.ggpht.com/a/AGF-l78waFxjfaseafH7OdstDQ30WuaEo3RI72MiwA=s900-mo-c-c0xffffffff-rj-k-no"
-              title="Trim Bresa"
-              timestamp={moment().subtract(6, "hours")}
-              description="Only text post here"
-              liked={true}
-              likes={40}
-              comments={4}
-            />
-            <Post
-              avatar="https://yt3.ggpht.com/a/AGF-l78waFxjfaseafH7OdstDQ30WuaEo3RI72MiwA=s900-mo-c-c0xffffffff-rj-k-no"
-              title="Trim Bresa"
-              timestamp={moment().subtract(20, "days")}
-              description="Video post here"
-              media={{
-                video: "http://clips.vorwaerts-gmbh.de/VfE_html5.mp4"
-              }}
-              liked={false}
-              likes={2}
-              comments={23}
-            />
-            <Post
-              avatar="https://yt3.ggpht.com/a/AGF-l78waFxjfaseafH7OdstDQ30WuaEo3RI72MiwA=s900-mo-c-c0xffffffff-rj-k-no"
-              title="Trim Bresa"
-              timestamp={moment().subtract(1, "year")}
-              description="Luxury is something everyone deserves from time to time."
-              media={{
-                image: "https://www.active.com/Assets/Fitness/2-week-plan.jpg"
-              }}
-              liked={false}
-              likes={12}
-              comments={8}
-            />
-          </ScrollView>
+            data={dashboardData}
+            removeClippedSubviews={true}
+            showsVerticalScrollIndicator={false}
+            renderItem={({ item  }) => (
+              <View style={dashboardStyles.postWrapper}>
+                <Post
+                  key={item.id}
+                  avatar={item.avatar}
+                  title={item.title}
+                  timestamp={moment().subtract(20, "days")}
+                  description={item.description}
+                  media={item.media}
+                  onDetailsPress={() => this.openPostDetails(item.id, item.title, item.description)}
+                  liked={item.liked}
+                  likes={item.likes}
+                  comments={item.comments}
+                />
+              </View>
+            )}
+            keyExtractor={item => item.id}
+          />
         </SafeAreaView>
       </Fragment>
     );
@@ -70,7 +158,21 @@ class Dashboard extends Component {
 
 const HomeRouter = createStackNavigator(
   {
-    Dashboard
+    Dashboard: createStackNavigator(
+      {
+        Dashboard,
+        PostDetails,
+      },
+      {
+        initialRouteName: "Dashboard"
+      }
+    ),
+    NewPost
+  },
+  {
+    initialRouteName: "Dashboard",
+    mode: 'modal',
+    headerMode: 'none'
   }
 );
 

@@ -4,23 +4,11 @@ import { StyleSheet } from "react-native";
 import * as colors from "../../../../global/styles/colors";
 
 export default StyleSheet.create({
-  homeSafeArea: {
+  notificationsSafeArea: {
     flex: 1,
     flexDirection: "column",
     backgroundColor: colors.white
   },
-  homeWrapper: {
-    alignItems: "center",
-    flex: 1,
-    alignSelf: "center",
-    justifyContent: "center",
-    padding: 10,
-    marginTop: 40
+  notificationsWrapper: {
   },
-  text: {
-    color: colors.black,
-    fontSize: 30,
-    // fontWeight: "bold",
-    fontFamily: "Montserrat-Medium"
-  }
 });

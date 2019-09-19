@@ -35,7 +35,7 @@ export default StyleSheet.create({
   },
   postHeaderTxt: {},
   postHeaderTitle: {
-    fontSize: 20
+    fontSize: 18
   },
   postHeaderTime: {
     color: colors.secondaryColor
@@ -45,7 +45,7 @@ export default StyleSheet.create({
     paddingBottom: 5
   },
   postBodyTxt: {
-    fontSize: 15,
+    fontSize: 13,
     fontFamily: "Montserrat-Medium",
     color: colors.black
   },

@@ -27,7 +27,7 @@ const Post = (props) => {
   const video = media.video && (
     <Video
       source={{uri: media.video}}
-      controls={true}
+      controls={false}
       playInBackground={false}
       style={postStyles.video}
       paused={true}
@@ -38,7 +38,11 @@ const Post = (props) => {
     <View
       style={postStyles.postWrapper}
     >
-      <TouchableOpacity activeOpacity={0.6} style={postStyles.postHeader}>
+      <TouchableOpacity
+        activeOpacity={0.6}
+        onPress={props.onDetailsPress}
+        style={postStyles.postHeader}
+      >
         <View style={postStyles.postAvatar}>
           <ImageBackground
             source={{ uri: props.avatar }}
@@ -89,6 +93,7 @@ const Post = (props) => {
 
 Post.defaultProps = {
   title: "Post",
+  onDetailsPress: () => alert("Method not implemented!"),
   avatar: "",
   description: "",
   liked: false,
@@ -100,6 +105,7 @@ Post.defaultProps = {
 
 Post.propTypes = {
   title: PropTypes.string,
+  onDetailsPress: PropTypes.func,
   avatar: PropTypes.string,
   description: PropTypes.string,
   liked: PropTypes.bool,

@@ -1,0 +1,39 @@
+[
+  {
+    "id": "asdadasd1111",
+    "avatar": "https://yt3.ggpht.com/a/AGF-l78waFxjfaseafH7OdstDQ30WuaEo3RI72MiwA=s900-mo-c-c0xffffffff-rj-k-no",
+    "title": "Trim Bresa",
+    "timestamp": "",
+    "description": "Only text post here",
+    "likes": 9,
+    "comments": 2,
+    "liked": true,
+    "media": {}
+  },
+  {
+    "id": "asdadasd12222",
+    "avatar": "https://yt3.ggpht.com/a/AGF-l78waFxjfaseafH7OdstDQ30WuaEo3RI72MiwA=s900-mo-c-c0xffffffff-rj-k-no",
+    "title": "Trim Bresa",
+    "timestamp": "",
+    "description": "Video content",
+    "likes": 21,
+    "comments": 4,
+    "liked": false,
+    "media": {
+      "video": "http://clips.vorwaerts-gmbh.de/VfE_html5.mp4"
+    }
+  },
+  {
+    "id": "asdadasd1442423",
+    "avatar": "https://yt3.ggpht.com/a/AGF-l78waFxjfaseafH7OdstDQ30WuaEo3RI72MiwA=s900-mo-c-c0xffffffff-rj-k-no",
+    "title": "Trim Bresa",
+    "timestamp": "",
+    "description": "Image content",
+    "likes": 12,
+    "comments": 8,
+    "liked": false,
+    "media": {
+      "image": "https://www.active.com/Assets/Fitness/2-week-plan.jpg"
+    }
+  }
+]

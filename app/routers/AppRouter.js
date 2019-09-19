@@ -26,6 +26,14 @@ const appTabsNavigatorViews = createBottomTabNavigator(
         )
       }
     },
+    // Schedule: {
+    //   screen: Messages,
+    //   navigationOptions: {
+    //     tabBarIcon: ({ tintColor }) => (
+    //       <MaterialCommunityIcons name="calendar-range-outline" size={25} color={tintColor} />
+    //     )
+    //   }
+    // },
     Messages: {
       screen: Messages,
       navigationOptions: {
@@ -62,6 +70,7 @@ const appStackNavigatorViews = createStackNavigator(
     Notifications,
   },
   {
+    initialRouteName: "App",
     defaultNavigationOptions: {
       header: null
     }
