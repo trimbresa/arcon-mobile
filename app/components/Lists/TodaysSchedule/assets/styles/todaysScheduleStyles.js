@@ -1,5 +1,9 @@
 import { StyleSheet } from "react-native";
 
+// Colors
+import * as colors from "../../../../../global/styles/colors";
+import * as fonts from "../../../../../global/styles/fonts";
+
 export default StyleSheet.create({
   scheduleWrapper: {
     flex: 1,
@@ -12,7 +16,7 @@ export default StyleSheet.create({
     marginRight: 10
   },
   scheduleText: {
-    fontFamily: "Montserrat-SemiBold",
+    fontFamily: fonts.primaryFontSemiBold,
     fontSize: 15,
     paddingHorizontal: 5,
   }

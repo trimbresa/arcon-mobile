@@ -2,6 +2,7 @@ import { StyleSheet } from "react-native";
 
 // Globals
 import * as colors from "../../../../global/styles/colors";
+import * as fonts from "../../../../global/styles/fonts";
 
 export default StyleSheet.create({
   newPostSafeArea: {
@@ -22,7 +23,7 @@ export default StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 10,
     marginTop: 20,
-    fontFamily: "Montserrat-Medium"
+    fontFamily: fonts.primaryFontMedium
   },
   newPostWrapper: {
     paddingVertical: 20

@@ -6,9 +6,9 @@ import Dashboard from "../views/Dashboard";
 import Messages from "../views/Messages";
 import Profile from "../views/Profile";
 import Notifications from "../views/Notifications";
+import Schedule from "../views/Schedule";
 
 // Icons
-import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 import { createStackNavigator } from "react-navigation-stack";
@@ -26,14 +26,14 @@ const appTabsNavigatorViews = createBottomTabNavigator(
         )
       }
     },
-    // Schedule: {
-    //   screen: Messages,
-    //   navigationOptions: {
-    //     tabBarIcon: ({ tintColor }) => (
-    //       <MaterialCommunityIcons name="calendar-range-outline" size={25} color={tintColor} />
-    //     )
-    //   }
-    // },
+    Schedule: {
+      screen: Schedule,
+      navigationOptions: {
+        tabBarIcon: ({ tintColor }) => (
+          <MaterialCommunityIcons name="calendar-range-outline" size={25} color={tintColor} />
+        )
+      }
+    },
     Messages: {
       screen: Messages,
       navigationOptions: {
@@ -56,7 +56,7 @@ const appTabsNavigatorViews = createBottomTabNavigator(
     }
   },
   {
-    initialRouteName: "Dashboard",
+    initialRouteName: "Schedule",
     lazy: true,
     tabBarOptions: {
       activeTintColor: primaryColor

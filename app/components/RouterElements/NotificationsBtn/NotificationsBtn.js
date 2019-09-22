@@ -5,14 +5,13 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 // Colors
 import * as colors from "../../../global/styles/colors";
 
+// Styles
+import notificationsBtnStyles from "./assets/styles/notificationsBtnStyles";
+
 export default function NotificationsBtn(props) {
   return (
     <View
-      style={{
-        flex: 1,
-        width: 60,
-        alignItems: "center",
-      }}
+      style={notificationsBtnStyles.wrapper}
     >
       <TouchableOpacity
         onPress={() => props.navigation.navigate("Notifications")}

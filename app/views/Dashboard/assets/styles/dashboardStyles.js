@@ -2,6 +2,7 @@ import { StyleSheet } from "react-native";
 
 // Globals
 import * as colors from "../../../../global/styles/colors";
+import * as fonts from "../../../../global/styles/fonts";
 import { shadow } from "../../../../global/styles/globalStyles";
 
 export default StyleSheet.create({
@@ -16,13 +17,13 @@ export default StyleSheet.create({
     marginBottom: 15,
     fontSize: 16,
     color: colors.secondaryColor,
-    fontFamily: "Montserrat-Medium",
+    fontFamily: fonts.primaryFontMedium,
   },
   dashboardSafeArea: {
     flex: 1,
     flexDirection: "column",
     backgroundColor: colors.lighterGrey,
-    fontFamily: "Montserrat-Medium"
+    fontFamily: fonts.primaryFontMedium
   },
   contentWrapper: {
     color: colors.black,

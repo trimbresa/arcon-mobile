@@ -1,31 +1,45 @@
-import React, { Component, Fragment } from "react";
-import {View, Text, SafeAreaView, StatusBar, ScrollView, Button} from "react-native";
-import { createStackNavigator } from "react-navigation-stack";
-import { createAppContainer } from "react-navigation";
+import React, {Component, Fragment} from "react";
+import {
+  View,
+  StatusBar,
+  ScrollView,
+  ImageBackground
+} from "react-native";
+import {createStackNavigator} from "react-navigation-stack";
+import {createAppContainer} from "react-navigation";
+
+// Components
+import LoginForm from "../../components/Forms/LoginForm";
 
 // Styles
 import loginStyles from "./assets/styles/loginStyles";
 
+// Images
+import bgImage from "./assets/images/gym.jpg";
+
 class Login extends Component {
   static navigationOptions = {
-    title: "Login"
+    title: "Login",
   };
 
   render() {
     return (
       <Fragment>
-        <StatusBar barStyle="dark-content" />
-        <SafeAreaView style={loginStyles.homeSafeArea}>
-          <ScrollView contentInsetAdjustmentBehavior="automatic">
-            <View style={loginStyles.homeWrapper}>
-              <Text style={loginStyles.text}>Welcome to Login!</Text>
-              <Button
-                title="Go to App"
-                onPress={() => this.props.navigation.navigate('App')}
-              />
-            </View>
-          </ScrollView>
-        </SafeAreaView>
+        <StatusBar barStyle="light-content" />
+        <ImageBackground
+          source={bgImage}
+          style={loginStyles.bgWrapper}
+        >
+          <View
+            style={loginStyles.loginWrapper}
+          >
+            <ScrollView
+              contentContainerStyle={loginStyles.loginInnerWrapper}
+            >
+              <LoginForm {...this.props}/>
+            </ScrollView>
+          </View>
+        </ImageBackground>
       </Fragment>
     );
   }
@@ -33,8 +47,11 @@ class Login extends Component {
 
 const LoginRouter = createStackNavigator(
   {
-    Login
-  }
+    Login,
+  },
+  {
+    headerMode: "none",
+  },
 );
 
 export default createAppContainer(LoginRouter);

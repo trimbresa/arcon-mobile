@@ -2,6 +2,7 @@ import { StyleSheet } from "react-native";
 
 // Globals
 import * as colors from "../../../../../global/styles/colors";
+import * as fonts from "../../../../../global/styles/fonts";
 
 export default StyleSheet.create({
   postWrapper: {
@@ -46,7 +47,7 @@ export default StyleSheet.create({
   },
   postBodyTxt: {
     fontSize: 13,
-    fontFamily: "Montserrat-Medium",
+    fontFamily: fonts.primaryFontMedium,
     color: colors.black
   },
   postBodyMedia: {

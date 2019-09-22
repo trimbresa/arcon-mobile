@@ -1,4 +1,6 @@
-export const primaryColor = "#410adf";
+export const primaryColor = "rgba(65, 10, 223, 1)";
+export const primaryColorFade = "rgba(65, 10, 223, 0.2)";
+export const blackFade = "rgba(40, 40, 40, 0.6)";
 export const secondaryColor = "grey";
 export const white = "#fff";
 export const black = "#000";

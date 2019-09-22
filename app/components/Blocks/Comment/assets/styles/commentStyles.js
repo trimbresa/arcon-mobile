@@ -2,6 +2,7 @@ import { StyleSheet } from "react-native";
 
 // Globals
 import * as colors from "../../../../../global/styles/colors";
+import * as fonts from "../../../../../global/styles/fonts";
 
 export default StyleSheet.create({
   comment: {
@@ -20,11 +21,11 @@ export default StyleSheet.create({
     borderRadius: 40
   },
   commentTitle: {
-    fontFamily: "Montserrat-Medium",
+    fontFamily: fonts.primaryFontMedium,
     fontSize: 15
   },
   commentDescription: {
-    fontFamily: "Montserrat-Medium",
+    fontFamily: fonts.primaryFontMedium,
     fontSize: 13
   },
   commentActions: {

@@ -2,6 +2,7 @@ import { StyleSheet } from "react-native";
 
 // Globals
 import * as colors from "../../../../../global/styles/colors";
+import * as fonts from "../../../../../global/styles/fonts";
 
 export default StyleSheet.create({
   sectionTitleWrapper: {
@@ -13,7 +14,7 @@ export default StyleSheet.create({
   sectionTitleText: {
     textTransform: "uppercase",
     color: colors.secondaryColor,
-    fontFamily: "Montserrat-Medium",
+    fontFamily: fonts.primaryFontMedium,
     fontSize: 13
   }
 });

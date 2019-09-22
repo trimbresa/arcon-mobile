@@ -39,7 +39,7 @@ class Dashboard extends Component {
   }
 
   state = {
-    showModal: true
+    showModal: false
   }
 
   openPostDetails = (postId, postTitle, postDescription) => {

@@ -2,10 +2,11 @@ import { StyleSheet } from "react-native";
 
 // Globals
 import * as colors from "../../../../global/styles/colors";
+import * as fonts from "../../../../global/styles/fonts";
 
 export default StyleSheet.create({
   postDetailsWrapper: {
-    // fontFamily: "Montserrat-Medium",
+    // fontFamily: fonts.primaryFontMedium,
   },
   postDetailsMedia: {
     height: 210,
@@ -27,7 +28,7 @@ export default StyleSheet.create({
     // height: 368,
     // flexGrow: 1,
     // borderWidth: 2,
-    fontFamily: "Montserrat-Medium",
+    fontFamily: fonts.primaryFontMedium,
   },
   commentsReplies: {
     paddingLeft: 40
@@ -46,7 +47,7 @@ export default StyleSheet.create({
   },
   postBodyTxt: {
     fontSize: 30,
-    fontFamily: "Montserrat-Medium",
+    fontFamily: fonts.primaryFontMedium,
     color: colors.white,
   },
   postBodyMedia: {

@@ -2,6 +2,7 @@ import { StyleSheet } from "react-native";
 
 // Globals
 import * as colors from "../../../../../global/styles/colors";
+import * as fonts from "../../../../../global/styles/fonts";
 
 export default StyleSheet.create({
   sectionItemWrapper: {
@@ -37,7 +38,7 @@ export default StyleSheet.create({
     paddingVertical: 10
   },
   scheduleTimeframe: {
-    fontFamily: "Montserrat-SemiBold",
+    fontFamily: fonts.primaryFontSemiBold,
     fontSize: 13,
     marginTop: 10,
     color: colors.black
@@ -54,7 +55,7 @@ export default StyleSheet.create({
     marginRight: 10
   },
   scheduleApprovalBtnLabel: {
-    fontFamily: "Montserrat-Bold",
+    fontFamily: fonts.primaryFontBold,
     color: colors.white
   },
   scheduleApproveBtn: {
@@ -71,23 +72,23 @@ export default StyleSheet.create({
     flex: 1
   },
   sectionItemTextMain: {
-    fontFamily: "Montserrat-Medium"
+    fontFamily: fonts.primaryFontMedium
   },
   sectionItemAuthor: {
     color: colors.black,
     fontSize: 16,
     fontWeight: "bold",
-    fontFamily: "Montserrat-Medium"
+    fontFamily: fonts.primaryFontMedium
   },
   sectionItemTitle: {
     color: colors.black,
     fontSize: 16,
-    fontFamily: "Montserrat-Medium"
+    fontFamily: fonts.primaryFontMedium
   },
   sectionItemTime: {
     marginTop: 4,
     color: colors.secondaryColor,
     fontSize: 12,
-    fontFamily: "Montserrat-Medium"
+    fontFamily: fonts.primaryFontMedium
   }
 });
