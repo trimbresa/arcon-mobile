@@ -23,7 +23,7 @@ class Notifications extends Component {
 
     return {
       title: "Notifications",
-      headerLeft:(<HeaderBackButton onPress={navigation.goBack}/>),
+      headerLeft:(<HeaderBackButton onPress={() => navigation.goBack(null)}/>),
       ...params,
     };
   };
