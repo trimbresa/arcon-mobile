@@ -39,7 +39,7 @@ const appTabsNavigatorViews = createBottomTabNavigator(
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <MaterialCommunityIcons name="comment-text-multiple-outline" size={23} color={tintColor} />
-        )
+        ),
       }
     },
     Profile: {
@@ -56,7 +56,7 @@ const appTabsNavigatorViews = createBottomTabNavigator(
     }
   },
   {
-    initialRouteName: "Schedule",
+    initialRouteName: "Messages",
     lazy: true,
     tabBarOptions: {
       activeTintColor: primaryColor

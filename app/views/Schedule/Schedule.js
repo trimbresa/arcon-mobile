@@ -17,7 +17,6 @@ import scheduleStyles from "./assets/styles/scheduleStyles";
 import * as colors from "../../global/styles/colors";
 import calendarStyles from "./assets/styles/calendarStyles";
 
-
 const today = new Date().toISOString().split('T')[0];
 const fastDate = getPastDate(3); 
 const futureDates = getFutureDates(9);
@@ -166,7 +165,7 @@ const ScheduleRouter = createStackNavigator(
           inactiveTintColor: colors.secondaryColor,
           style: scheduleStyles.tabBar,
         },
-        initialRouteName: "Employee Schedule"
+        initialRouteName: "My Schedule"
       },
     ),
   },
