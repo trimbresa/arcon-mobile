@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   Text
 } from "react-native";
+
+import Crashlytics from "react-native-fabric/Fabric";
 import { createStackNavigator } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
 import moment from "moment";
@@ -17,18 +19,19 @@ import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 import dashboardData from "./dummyDashboard.json";
 
 // Components
-import NotificationsBtn from "../../components/RouterElements/NotificationsBtn/NotificationsBtn";
+import NotificationsBtn from "../../components/RouterElements/NotificationsBtn";
 import Post from "../../components/Blocks/Post";
 import SemiModal from "../../components/Blocks/SemiModal";
+import TodaysSchedule from "../../components/Lists/TodaysSchedule";
 
 // Other views
 import PostDetails from "../PostDetails";
 import NewPost from "../NewPost";
+import ManagerDashboard from "../ManagerDashboard";
 
 // Styles
 import dashboardStyles from "./assets/styles/dashboardStyles";
 import * as colors from "../../global/styles/colors";
-import TodaysSchedule from "../../components/Lists/TodaysSchedule/TodaysSchedule.js";
 
 class Dashboard extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -107,6 +110,17 @@ class Dashboard extends Component {
           style={dashboardStyles.scheduleBtnWrapper}
         >
           <TouchableOpacity
+            style={dashboardStyles.statsBtn}
+            onPress={() => this.props.navigation.navigate("GMDashboard")}
+          >
+            <SimpleLineIcons name="pie-chart" size={15} color={colors.white}/>
+            <Text
+              style={dashboardStyles.statsBtnText}
+            >
+              Stats
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
             style={dashboardStyles.scheduleBtn}
             onPress={this.switchToSchedule}
           >
@@ -160,14 +174,15 @@ const HomeRouter = createStackNavigator(
   {
     Dashboard: createStackNavigator(
       {
-        Dashboard,
+        NormalDashboard: Dashboard,
+        GMDashboard: ManagerDashboard,
         PostDetails,
       },
       {
-        initialRouteName: "Dashboard"
+        initialRouteName: 'NormalDashboard'
       }
     ),
-    NewPost
+    NewPost,
   },
   {
     initialRouteName: "Dashboard",
