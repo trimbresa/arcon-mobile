@@ -33,11 +33,14 @@ export default StyleSheet.create({
     paddingHorizontal: 15
   },
   scheduleBtnWrapper: {
+    flexDirection: 'row',
     flex: 1,
     padding: 15,
-    alignItems: "flex-end"
+    alignItems: "flex-end",
+    justifyContent: 'space-between'
   },
   scheduleBtn: {
+    alignSelf: "flex-end",
     paddingVertical: 8,
     paddingHorizontal: 15,
     backgroundColor: "#fff",
@@ -46,8 +49,26 @@ export default StyleSheet.create({
     marginBottom: 5,
     ...shadow
   },
+  statsBtn: {
+    paddingVertical: 8,
+    paddingHorizontal: 15,
+    backgroundColor: colors.primaryColor,
+    borderRadius: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 5,
+    ...shadow
+  },
   scheduleBtnText: {
+    fontFamily: fonts.primaryFontMedium,
     color: colors.black,
+    fontSize: 13,
+    marginLeft: 8
+  },
+  statsBtnText: {
+    fontFamily: fonts.primaryFontMedium,
+    color: colors.white,
+    fontSize: 13,
     marginLeft: 8
   }
 });

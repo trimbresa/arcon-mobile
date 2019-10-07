@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { View, TextInput, TouchableOpacity } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -8,6 +8,8 @@ import msgInputStyles from "./assets/styles/msgInputStyles";
 import * as colors from "../../../global/styles/colors";
 
 const MsgInput = (props) => {
+  const [msg, setMsg] = useState("");
+
   return (
     <View
       style={msgInputStyles.wrapper}
@@ -17,9 +19,9 @@ const MsgInput = (props) => {
         placeholder={props.placeholder}
         autoCapitalize="none"
         autoCorrect={false}
-        enablesReturnKeyAutomatically={true}
         multiline={true}
-        // numberOfLines={6}
+        value={msg}
+        onChangeText={setMsg}
       />
       <TouchableOpacity style={msgInputStyles.sendBtn}>
         <Ionicons name="ios-send" size={28} color={colors.primaryColor}/>

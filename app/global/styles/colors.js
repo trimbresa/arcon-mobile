@@ -9,3 +9,4 @@ export const lighterGrey = "#eff0f1";
 export const red = "#f42850";
 export const green = "#7ed321";
 export const mango = "#f6a93b";
+export const blue = "rgb(74, 144, 226)";
