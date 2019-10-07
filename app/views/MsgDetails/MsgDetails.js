@@ -43,6 +43,7 @@ class MsgDetails extends Component {
             contentContainerStyle={msgDetailsStyles.msgList}
             keyboardDismissMode="on-drag"
             data={data}
+            keyboardShouldPersistTaps="never"
             showsVerticalScrollIndicator={false}
             inverted={true}
             ListHeaderComponent={listHeader}
