@@ -8,12 +8,12 @@ import {
   TouchableOpacity,
   Text
 } from "react-native";
-
-import Crashlytics from "react-native-fabric/Fabric";
 import { createStackNavigator } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
 import moment from "moment";
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
+
+
 
 // Dummy data
 import dashboardData from "./dummyDashboard.json";
