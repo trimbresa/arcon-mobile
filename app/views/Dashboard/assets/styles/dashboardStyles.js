@@ -70,5 +70,10 @@ export default StyleSheet.create({
     color: colors.white,
     fontSize: 13,
     marginLeft: 8
+  },
+  dataMsg: {
+    fontFamily: fonts.primaryFontMedium,
+    textAlign: 'center',
+    marginTop: 15
   }
 });

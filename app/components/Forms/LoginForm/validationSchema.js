@@ -4,7 +4,6 @@ import * as Yup from "yup";
 import messages from "./messages";
 
 export default Yup.object().shape({
-  email: Yup.string().email(messages.invalidEmail)
-    .required(messages.email),
-  password: Yup.string().required(messages.password),
+  employeeCode: Yup.number().required(messages.employeeCode),
+  password: Yup.string().trim().required(messages.password),
 });

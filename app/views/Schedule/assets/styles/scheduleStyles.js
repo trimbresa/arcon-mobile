@@ -50,6 +50,7 @@ export default StyleSheet.create({
 
   // Custom calendar
   calendar: {
+    flex: 1,
     paddingLeft: 20, 
     paddingRight: 20
   },

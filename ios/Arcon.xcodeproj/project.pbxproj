@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* ArconTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* ArconTests.m */; };
 		01288D4D69C24D569D7F35F9 /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 74052FE5F9D2482E8B81ACF7 /* Fontisto.ttf */; };

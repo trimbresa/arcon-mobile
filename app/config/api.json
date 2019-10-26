@@ -1,0 +1,8 @@
+{
+  "aws_bucket": "https://d39ape45in7xa1.cloudfront.net",
+  "baseURL": "https://dev.getarcon.com/api",
+  "authenticate": "/authenticate",
+  "dashboard": "/dashboard",
+  "mySchedule": "/schedules/self",
+  "schedules": "/schedules"
+}

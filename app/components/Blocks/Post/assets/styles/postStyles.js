@@ -24,6 +24,8 @@ export default StyleSheet.create({
     alignItems: "center"
   },
   postAvatar: {
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: colors.lightGrey,
     height: 50,
     width: 50,
@@ -33,6 +35,9 @@ export default StyleSheet.create({
   },
   postAvatarMedia: {
     flex: 1
+  },
+  avatarInitials: {
+    alignSelf: 'center'
   },
   postHeaderTxt: {},
   postHeaderTitle: {

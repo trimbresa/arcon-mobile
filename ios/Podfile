@@ -37,7 +37,7 @@ target 'Arcon' do
 
   pod 'Fabric'
   pod 'Crashlytics'
-
+  
   target 'ArconTests' do
     inherit! :search_paths
     # Pods for testing

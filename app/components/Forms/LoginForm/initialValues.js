@@ -1,6 +1,6 @@
 export default function initialValues() {
   return {
-    email: "",
-    password: ""
+    employeeCode: "040288",
+    password: "Equinox1"
   };
 }

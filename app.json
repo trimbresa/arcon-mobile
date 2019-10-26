@@ -1,4 +1,5 @@
 {
+  "baseURL": "https://dev.getarcon.com/api",
   "name": "Arcon",
   "displayName": "Arcon"
 }

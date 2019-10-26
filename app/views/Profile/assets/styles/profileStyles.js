@@ -16,9 +16,6 @@ export default StyleSheet.create({
   profileHeader: {
     flex: 1,
     backgroundColor: colors.lighterGrey,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingTop: 60,
     marginBottom: 80
   },
   profileHeaderImage: {
@@ -27,7 +24,8 @@ export default StyleSheet.create({
     borderRadius: 120,
     overflow: "hidden",
     bottom: -60,
-    marginTop: -60
+    // marginTop: -60,
+    alignSelf: "center"
   },
   profileBody: {
     paddingBottom: 40
@@ -59,5 +57,22 @@ export default StyleSheet.create({
   },
   changePwBtnLabel: {
     color: colors.primaryColor
+  },
+  logoutBtn: {
+    flexDirection: "row",
+    alignSelf: "flex-end",
+    marginTop: 10,
+    marginRight: 10,
+    backgroundColor: colors.primaryColor,
+    paddingVertical: 8,
+    paddingHorizontal: 20,
+    borderRadius: 6,
+    alignItems: 'center'
+  },
+  logoutBtnLabel: {
+    fontFamily: fonts.primaryFontMedium,
+    color: colors.white,
+    marginLeft: 5,
+    fontSize: 13
   }
 });
