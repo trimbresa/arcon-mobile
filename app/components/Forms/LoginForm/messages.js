@@ -1,5 +1,4 @@
 export default {
-  invalidEmail: "Invalid email!",
-  email: "Email is required!",
+  employeeCode: "Employee number is required!",
   password: "Password is required!",
 };

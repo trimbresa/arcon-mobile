@@ -51,6 +51,9 @@ export default StyleSheet.create({
     alignItems: "center",
     top: -25
   },
+  submitBtnInProgress: {
+    backgroundColor: colors.secondaryColor
+  },
   submitBtnLabel: {
     fontFamily: fonts.primaryFontMedium,
     color: colors.white,

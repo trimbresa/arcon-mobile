@@ -35,6 +35,9 @@ target 'Arcon' do
 
   pod 'react-native-video', :path => '../node_modules/react-native-video'
 
+  pod 'Fabric'
+  pod 'Crashlytics'
+  
   target 'ArconTests' do
     inherit! :search_paths
     # Pods for testing

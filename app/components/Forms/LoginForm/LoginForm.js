@@ -15,8 +15,9 @@ export default function LoginForm(props) {
   return (
     <Formik
       initialValues={initialValues({})}
-      onSubmit={values => {
-        props.navigation.navigate("App")
+      onSubmit={async values => {
+        await props.authenticate(values);
+        props.navigation.navigate("AuthLoading");
       }}
       validationSchema={validationSchema}
     >
@@ -33,16 +34,16 @@ export default function LoginForm(props) {
           <View style={loginFormStyles.loginFieldsWrapper} >
             <View style={loginFormStyles.loginFieldsGroup}>
               <TextInput
-                onChangeText={props.handleChange("email")}
-                onBlur={props.handleBlur("email")}
-                value={props.values.email}
-                placeholder="Email"
+                onChangeText={props.handleChange("employeeCode")}
+                onBlur={props.handleBlur("employeeCode")}
+                value={props.values.employeeCode}
+                placeholder="Employee Number"
                 style={loginFormStyles.field}
                 placeholderTextColor={colors.secondaryColor}
                 autoCapitalize="none"
                 autoCompleteType="off"
                 autoCorrect={false}
-                keyboardType="email-address"
+                keyboardType="numeric"
               />
               <Text
                 style={loginFormStyles.fieldMsg}
@@ -73,14 +74,18 @@ export default function LoginForm(props) {
           >
             <TouchableOpacity
               onPress={props.handleSubmit}
-              style={loginFormStyles.submitBtn}
+              disabled={props.isSubmitting}
+              style={[
+                loginFormStyles.submitBtn,
+                props.isSubmitting && loginFormStyles.submitBtnInProgress
+              ]}
               activeOpacity={0.9}
             >
               <>
                 <Text
                   style={loginFormStyles.submitBtnLabel}
                 >
-                  Login
+                  {props.isSubmitting ? 'Logging in...' : 'Login'}
                 </Text>
                 <Feather
                   name="arrow-right"

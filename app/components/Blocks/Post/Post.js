@@ -2,6 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { View, Text, TouchableOpacity, ImageBackground } from "react-native";
 import Video from "react-native-video";
+import { WebView } from 'react-native-webview';
+
+import {aws_bucket} from "../../../config/api.json";
 
 // Components
 import LikeBtn from "../../Buttons/LikeBtn/LikeBtn";
@@ -16,22 +19,46 @@ import postStyles from "./assets/styles/postStyles";
 
 const Post = (props) => {
   const { media = {} } = props;
-
+  
   const image = media.image && (
     <ImageBackground
-      source={{ uri: media.image }}
+      source={{ uri: `${aws_bucket}/${media.image}` }}
       style={postStyles.image}
     />
   );
 
-  const video = media.video && (
-    <Video
-      source={{uri: media.video}}
-      controls={false}
-      playInBackground={false}
-      style={postStyles.video}
-      paused={true}
-    />
+  // const video = media["video/link"] && (
+  //   <Video
+  //     source={{uri: media["video/link"]}}
+  //     controls={false}
+  //     playInBackground={false}
+  //     style={postStyles.video}
+  //     paused={true}
+  //   />
+  // );
+
+  const video = media["video/link"] && (
+    // <Video
+    //   source={{uri: media["video/link"]}}
+    //   controls={false}
+    //   playInBackground={false}
+    //   style={postStyles.video}
+    //   paused={true}
+    // />
+    <View style={{ flex: 1, borderRadius: 6, overflow: 'hidden' }}>
+      <WebView
+        javaScriptEnabled={true}
+        style={{ borderRadius: 6 }}
+        source={{ html:
+          `<html><body><iframe width='100%' height='100%'
+            src='${media["video/link"].replace('watch', 'embed')}'
+            frameborder='0'
+            allowfullscreen></iframe>
+            </body>
+          </html>`
+        }}
+      />
+    </View>
   );
 
   return (
@@ -44,17 +71,25 @@ const Post = (props) => {
         style={postStyles.postHeader}
       >
         <View style={postStyles.postAvatar}>
-          <ImageBackground
-            source={{ uri: props.avatar }}
-            style={postStyles.postAvatarMedia}
-          />
+          {
+            props.avatar ? (
+              <ImageBackground
+                source={{ uri: props.avatar }}
+                style={postStyles.postAvatarMedia}
+              />
+            ) : (
+              <Text style={postStyles.avatarInitials}>
+                {props.firstName[0]} {props.lastName[0]}
+              </Text>
+            )
+          }
         </View>
         <View style={postStyles.postHeaderTxt}>
           <Text
             numberOfLines={1}
             style={postStyles.postHeaderTitle}
           >
-            { props.title }
+            {props.firstName} {props.lastName}
           </Text>
           <Text
             style={postStyles.postHeaderTime}
@@ -92,7 +127,8 @@ const Post = (props) => {
 };
 
 Post.defaultProps = {
-  title: "Post",
+  firstName: "",
+  lastName: "",
   onDetailsPress: () => alert("Method not implemented!"),
   avatar: "",
   description: "",
@@ -104,7 +140,8 @@ Post.defaultProps = {
 };
 
 Post.propTypes = {
-  title: PropTypes.string,
+  firstName: PropTypes.string,
+  lastName: PropTypes.string,
   onDetailsPress: PropTypes.func,
   avatar: PropTypes.string,
   description: PropTypes.string,

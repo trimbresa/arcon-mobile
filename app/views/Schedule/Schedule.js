@@ -1,10 +1,13 @@
 import React, {Component, Fragment} from "react";
-import {View, Text, SafeAreaView, StatusBar, ScrollView, TouchableOpacity, Button, Alert} from "react-native";
+import {View, Text, SafeAreaView, StatusBar, TouchableOpacity, Button, Alert} from "react-native";
+import { connect } from "react-redux";
 import {createStackNavigator} from "react-navigation-stack";
 import {createAppContainer} from "react-navigation";
 import {createMaterialTopTabNavigator} from "react-navigation-tabs";
-import {ExpandableCalendar, AgendaList, CalendarProvider} from 'react-native-calendars';
+import {ExpandableCalendar, AgendaList, CalendarProvider, Agenda, CalendarList} from 'react-native-calendars';
 import _ from 'lodash';
+import * as actions from "./actions";
+import moment from "moment";
 
 // Other views
 import MyEmpSchedule from "../MyEmpSchedule";
@@ -36,30 +39,7 @@ function getPastDate(days) {
   return new Date(Date.now() - (864e5 * days)).toISOString().split('T')[0];
 }
 
-const ITEMS = [
-  {title: dates[0], data: [{}]},
-  {title: dates[1], data: [{}]},
-  {title: dates[2], data: [{hour: '8am - 5pm', duration: '9h', title: 'Day shift'}]},
-  {title: dates[3], data: [{hour: '8am - 5pm', duration: '9h', title: 'Day shift'}]},
-  {title: dates[4], data: [{hour: '8am - 5pm', duration: '9h', title: 'Day shift'}]},
-  {title: dates[5], data: [{hour: '3pm - 9pm', duration: '6h', title: 'Night Shift'}]},
-  {title: dates[6], data: [{hour: '3pm - 9pm', duration: '6h', title: 'Night Shift'}]},
-  {title: dates[7], data: [{}]},
-  {title: dates[8], data: [{}]},
-  {title: dates[9], data: [{}]},
-  {title: dates[10], data: [{}]},
-];
-
 class Schedule extends Component {
-  onDateChanged = (/* date, updateSource */) => {
-    // console.warn('ExpandableCalendarScreen onDateChanged: ', date, updateSource);
-    // fetch and set data for date + week ahead
-  }
-
-  onMonthChange = (/* month, updateSource */) => {
-    // console.warn('ExpandableCalendarScreen onMonthChange: ', month, updateSource);
-  }
-  
   buttonPressed() {
     Alert.alert('show more');
   }
@@ -68,15 +48,15 @@ class Schedule extends Component {
     Alert.alert(id);
   }
 
-  renderEmptyItem() {
-    return (
+  renderEmptyItem = () => {
+    return !this.props.scheduleReducer.loading && (
       <View style={scheduleStyles.emptyItem}>
-        <Text style={scheduleStyles.emptyItemText}>No Events Planned</Text>
+        <Text style={scheduleStyles.emptyItemText}>No events to show.</Text>
       </View>
     );
   }
 
-  renderItem = ({item}) => {
+  renderItem = (item) => {
     if (_.isEmpty(item)) {
       return this.renderEmptyItem();
     }
@@ -87,8 +67,8 @@ class Schedule extends Component {
         style={scheduleStyles.item}
       >
         <View>
-          <Text style={scheduleStyles.itemHourText}>{item.hour}</Text>
-          <Text style={scheduleStyles.itemDurationText}>{item.duration}</Text>
+          <Text style={scheduleStyles.itemHourText}>{item.startDate} - {item.endDate}</Text>
+          <Text style={scheduleStyles.itemDurationText}>{Number(item.duration).toFixed(1)} h</Text>
         </View>
         <Text style={scheduleStyles.itemTitleText}>{item.title}</Text>
         <View style={scheduleStyles.itemButtonContainer}>
@@ -98,62 +78,47 @@ class Schedule extends Component {
     );
   }
 
-  getMarkedDates = () => {
-    const marked = {};
-    ITEMS.forEach(item => {
-      // only mark dates with data
-      if (item.data && item.data.length > 0 && !_.isEmpty(item.data[0])) {
-        marked[item.title] = {marked: true};
-      }
-    });
-    return marked;
-  }
-
   render() {
+    const { events, loading, activeMonth } = this.props.scheduleReducer;
+    
     return (
       <Fragment>
-        <StatusBar barStyle="dark-content" />
+        <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
         <SafeAreaView style={scheduleStyles.scheduleSafarea}>
-          <CalendarProvider
-            date={ITEMS[0].title}
-            onDateChanged={this.onDateChanged}
-            onMonthChange={this.onMonthChange}
-            theme={{todayButtonTextColor: colors.primaryColor}}
-            showTodayButton
+          <Agenda
+            items={events}
+            loadItemsForMonth={(month) => this.props.fetchSchedule(month.timestamp)}
+            displayLoadingIndicator={loading}
+            renderItem={this.renderItem}
+            renderEmptyDate={this.renderEmptyItem}
+            renderEmptyData = {this.renderEmptyItem}
+            rowHasChanged={(r1, r2) => {
+              return r1.title !== r2.title
+            }}
+            onRefresh={() => this.props.fetchSchedule(activeMonth)}
+            refreshing={loading}
+            theme={calendarStyles}
+            firstDay={1}
             disabledOpacity={0.6}
             todayBottomMargin={16}
-          >
-            <ExpandableCalendar
-              // horizontal={false}
-              // hideArrows
-              // disablePan
-              // hideKnob
-              initialPosition={ExpandableCalendar.positions.OPEN}
-              firstDay={1}
-              markedDates={this.getMarkedDates()}
-              theme={calendarStyles}
-              calendarStyle={scheduleStyles.calendar}
-              headerStyle={scheduleStyles.calendar}
-            />
-            <AgendaList
-              sections={ITEMS}
-              extraData={this.state}
-              renderItem={this.renderItem}
-              sectionStyle={scheduleStyles.section}
-            />
-          </CalendarProvider>
+            showTodayButton
+            sectionStyle={scheduleStyles.section}
+          />
         </SafeAreaView>
       </Fragment>
     );
   }
 }
 
+// Connect with redux
+const ScheduleContainer = connect((scheduleReducer) => (scheduleReducer), actions)(Schedule);
+
 const ScheduleRouter = createStackNavigator(
   {
     MySchedule: createMaterialTopTabNavigator(
       {
-        "My Schedule": Schedule,
-        "Employee Schedule": MyEmpSchedule,
+        "My Schedule": ScheduleContainer,
+        // "Employee Schedule": MyEmpSchedule,
       },
       {
         tabBarOptions: {

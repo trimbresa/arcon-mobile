@@ -4,19 +4,16 @@ import {
   StatusBar,
   FlatList,
   View,
-  TouchableHighlight,
   TouchableOpacity,
-  Text
+  Text,
+  Button,
+  RefreshControl
 } from "react-native";
-
-import Crashlytics from "react-native-fabric/Fabric";
 import { createStackNavigator } from "react-navigation-stack";
-import { createAppContainer } from "react-navigation";
 import moment from "moment";
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
-
-// Dummy data
-import dashboardData from "./dummyDashboard.json";
+import { connect } from "react-redux";
+import * as actions from "./actions";
 
 // Components
 import NotificationsBtn from "../../components/RouterElements/NotificationsBtn";
@@ -58,8 +55,14 @@ class Dashboard extends Component {
       showModal: !this.state.showModal
     });
   }
+  
+  componentDidMount() {
+    this.props.fetchDashboard();
+  }
 
   render() {
+    const { posts = [], loading, error } = this.props.dashboardReducer;
+
     const headerComponent = (
       <>
         <SemiModal
@@ -101,6 +104,7 @@ class Dashboard extends Component {
           />
         </SemiModal>
         <TouchableOpacity
+          disabled={loading}
           onPress={this.openNewPost}
           style={dashboardStyles.newPostShortcutWrapper}
         >
@@ -135,6 +139,15 @@ class Dashboard extends Component {
       </>
     );
 
+    const emptyComponent = !loading && !error && !posts.length
+    ? (
+    <Text style={dashboardStyles.dataMsg}>
+      No new posts to show.
+    </Text>
+    ) : !loading && error && (
+      <Text style={dashboardStyles.dataMsg}>Couldn't load your data. Try again later!</Text>
+    );
+
     return (
       <Fragment>
         <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
@@ -143,26 +156,44 @@ class Dashboard extends Component {
             ListHeaderComponent={headerComponent}
             contentInsetAdjustmentBehavior="automatic"
             contentContainerStyle={dashboardStyles.contentWrapper}
-            data={dashboardData}
+            data={posts}
+            extraData={posts}
+            refreshing={loading}
+            refreshControl={
+              <RefreshControl
+                refreshing={loading}
+                color={colors.primaryColor}
+                colors={[colors.primaryColor]}
+                onRefresh={this.props.fetchDashboard}
+              />
+            }
+            onRefresh={this.props.fetchDashboard}
             removeClippedSubviews={true}
             showsVerticalScrollIndicator={false}
-            renderItem={({ item  }) => (
-              <View style={dashboardStyles.postWrapper}>
+            ListEmptyComponent={emptyComponent}
+            renderItem={({ item  }) => {
+              return (
+                <View style={dashboardStyles.postWrapper}>
                 <Post
-                  key={item.id}
-                  avatar={item.avatar}
-                  title={item.title}
-                  timestamp={moment().subtract(20, "days")}
-                  description={item.description}
-                  media={item.media}
-                  onDetailsPress={() => this.openPostDetails(item.id, item.title, item.description)}
-                  liked={item.liked}
-                  likes={item.likes}
-                  comments={item.comments}
+                  // avatar={item.avatar}
+                  firstName={item.firstName}
+                  lastName={item.lastName}
+                  timestamp={moment(item.createdOn).format()}
+                  description={item.note}
+                  media={
+                    item.attachment.length ? {
+                      [item.attachment[0].type]: item.attachment[0].path
+                    } : {}
+                  }
+                  // onDetailsPress={() => this.openPostDetails(item.id, item.title, item.description)}
+                  // liked={item.liked}
+                  likes={item.likes.length}
+                  comments={item.reply.length}
                 />
               </View>
-            )}
-            keyExtractor={item => item.id}
+              )
+            }}
+            keyExtractor={item => `${item.id}`}
           />
         </SafeAreaView>
       </Fragment>
@@ -170,11 +201,14 @@ class Dashboard extends Component {
   }
 }
 
+// Connect with redux
+const DashboardContainer = connect((dashboardReducer) => (dashboardReducer), actions)(Dashboard);
+
 const HomeRouter = createStackNavigator(
   {
     Dashboard: createStackNavigator(
       {
-        NormalDashboard: Dashboard,
+        NormalDashboard: DashboardContainer,
         GMDashboard: ManagerDashboard,
         PostDetails,
       },
@@ -191,4 +225,4 @@ const HomeRouter = createStackNavigator(
   }
 );
 
-export default createAppContainer(HomeRouter);
+export default HomeRouter;
