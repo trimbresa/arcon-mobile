@@ -7,6 +7,7 @@ import Messages from "../views/Messages";
 import Profile from "../views/Profile";
 import Notifications from "../views/Notifications";
 import Schedule from "../views/Schedule";
+import MsgDetails from "../views/MsgDetails";
 
 // Icons
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -56,7 +57,7 @@ const appTabsNavigatorViews = createBottomTabNavigator(
     }
   },
   {
-    initialRouteName: "Dashboard",
+    initialRouteName: "Messages",
     lazy: true,
     tabBarOptions: {
       activeTintColor: primaryColor
@@ -68,6 +69,7 @@ const appStackNavigatorViews = createStackNavigator(
   {
     App: appTabsNavigatorViews,
     Notifications,
+    MsgDetails
   },
   {
     initialRouteName: "App",

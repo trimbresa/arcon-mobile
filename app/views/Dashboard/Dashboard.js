@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, {Component, Fragment} from "react";
 import {
   SafeAreaView,
   StatusBar,
@@ -7,12 +7,12 @@ import {
   TouchableOpacity,
   Text,
   Button,
-  RefreshControl
+  RefreshControl,
 } from "react-native";
-import { createStackNavigator } from "react-navigation-stack";
+import {createStackNavigator} from "react-navigation-stack";
 import moment from "moment";
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import * as actions from "./actions";
 
 // Components
@@ -31,69 +31,58 @@ import dashboardStyles from "./assets/styles/dashboardStyles";
 import * as colors from "../../global/styles/colors";
 
 class Dashboard extends Component {
-  static navigationOptions = ({ navigation }) => {
+  static navigationOptions = ({navigation}) => {
     return {
       title: "Dashboard",
-      headerRight: <NotificationsBtn navigation={navigation}/>,
+      headerRight: <NotificationsBtn navigation={navigation} />,
     };
-  }
+  };
 
   state = {
-    showModal: false
-  }
+    showModal: false,
+  };
 
   openPostDetails = (postId, postTitle, postDescription) => {
-    this.props.navigation.navigate(`PostDetails`, { postId, postTitle, postDescription });
-  }
+    this.props.navigation.navigate(`PostDetails`, {
+      postId,
+      postTitle,
+      postDescription,
+    });
+  };
 
   openNewPost = () => {
     this.props.navigation.navigate("NewPost");
-  }
+  };
 
   switchToSchedule = () => {
     this.setState({
-      showModal: !this.state.showModal
+      showModal: !this.state.showModal,
     });
-  }
-  
+  };
+
   componentDidMount() {
     this.props.fetchDashboard();
   }
 
   render() {
-    const { posts = [], loading, error } = this.props.dashboardReducer;
+    const {
+      posts = [],
+      schedules = [],
+      loading,
+      error,
+    } = this.props.dashboardReducer;
+
+    console.log(schedules);
 
     const headerComponent = (
       <>
         <SemiModal
           showModal={this.state.showModal}
-          switchToSchedule={this.switchToSchedule}
-        >
+          switchToSchedule={this.switchToSchedule}>
           <FlatList
-            data={[
-              {
-                id: "12323",
-                schedule: "11AM - 12AM"
-              },
-              {
-                id: "123123123",
-                schedule: "11AM - 12AM"
-              },
-              {
-                id: "342425",
-                schedule: "11AM - 12AM"
-              },
-              {
-                id: "34534521",
-                schedule: "11AM - 12AM"
-              },
-              {
-                id: "55424234",
-                schedule: "11AM - 12AM"
-              },
-            ]}
+            data={[]}
             keyExtractor={item => item.id}
-            renderItem={({ item, key  }) => (
+            renderItem={({item, key}) => (
               <TodaysSchedule
                 key={key}
                 icon="clock"
@@ -101,19 +90,19 @@ class Dashboard extends Component {
                 onPress={() => alert("Press!")}
               />
             )}
+            ListEmptyComponent={() => <Text style={dashboardStyles.dataMsg}>No Schedule for today</Text>}
           />
         </SemiModal>
         <TouchableOpacity
           disabled={loading}
           onPress={this.openNewPost}
-          style={dashboardStyles.newPostShortcutWrapper}
-        >
-          <Text style={dashboardStyles.newPostShortcut}>Want to share something?</Text>
+          style={dashboardStyles.newPostShortcutWrapper}>
+          <Text style={dashboardStyles.newPostShortcut}>
+            Want to share something?
+          </Text>
         </TouchableOpacity>
-        <View
-          style={dashboardStyles.scheduleBtnWrapper}
-        >
-          <TouchableOpacity
+        <View style={dashboardStyles.scheduleBtnWrapper}>
+          {/* <TouchableOpacity
             style={dashboardStyles.statsBtn}
             onPress={() => this.props.navigation.navigate("GMDashboard")}
           >
@@ -123,15 +112,12 @@ class Dashboard extends Component {
             >
               Stats
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity
             style={dashboardStyles.scheduleBtn}
-            onPress={this.switchToSchedule}
-          >
-            <SimpleLineIcons name="event" size={15} color={colors.black}/>
-            <Text
-              style={dashboardStyles.scheduleBtnText}
-            >
+            onPress={this.switchToSchedule}>
+            <SimpleLineIcons name="event" size={15} color={colors.black} />
+            <Text style={dashboardStyles.scheduleBtnText}>
               Today's Schedule
             </Text>
           </TouchableOpacity>
@@ -139,14 +125,17 @@ class Dashboard extends Component {
       </>
     );
 
-    const emptyComponent = !loading && !error && !posts.length
-    ? (
-    <Text style={dashboardStyles.dataMsg}>
-      No new posts to show.
-    </Text>
-    ) : !loading && error && (
-      <Text style={dashboardStyles.dataMsg}>Couldn't load your data. Try again later!</Text>
-    );
+    const emptyComponent =
+      !loading && !error && !posts.length ? (
+        <Text style={dashboardStyles.dataMsg}>No new posts to show.</Text>
+      ) : (
+        !loading &&
+        error && (
+          <Text style={dashboardStyles.dataMsg}>
+            Couldn't load your data. Try again later!
+          </Text>
+        )
+      );
 
     return (
       <Fragment>
@@ -158,7 +147,6 @@ class Dashboard extends Component {
             contentContainerStyle={dashboardStyles.contentWrapper}
             data={posts}
             extraData={posts}
-            refreshing={loading}
             refreshControl={
               <RefreshControl
                 refreshing={loading}
@@ -167,31 +155,32 @@ class Dashboard extends Component {
                 onRefresh={this.props.fetchDashboard}
               />
             }
-            onRefresh={this.props.fetchDashboard}
-            removeClippedSubviews={true}
+            initialNumToRender={8}
             showsVerticalScrollIndicator={false}
             ListEmptyComponent={emptyComponent}
-            renderItem={({ item  }) => {
+            renderItem={({item}) => {
               return (
                 <View style={dashboardStyles.postWrapper}>
-                <Post
-                  // avatar={item.avatar}
-                  firstName={item.firstName}
-                  lastName={item.lastName}
-                  timestamp={moment(item.createdOn).format()}
-                  description={item.note}
-                  media={
-                    item.attachment.length ? {
-                      [item.attachment[0].type]: item.attachment[0].path
-                    } : {}
-                  }
-                  // onDetailsPress={() => this.openPostDetails(item.id, item.title, item.description)}
-                  // liked={item.liked}
-                  likes={item.likes.length}
-                  comments={item.reply.length}
-                />
-              </View>
-              )
+                  <Post
+                    // avatar={item.avatar}
+                    firstName={item.firstName}
+                    lastName={item.lastName}
+                    timestamp={moment(item.createdOn).format()}
+                    description={item.note}
+                    media={
+                      item.attachment.length
+                        ? {
+                            [item.attachment[0].type]: item.attachment[0].path,
+                          }
+                        : {}
+                    }
+                    // onDetailsPress={() => this.openPostDetails(item.id, item.title, item.description)}
+                    // liked={item.liked}
+                    likes={item.likes.length}
+                    comments={item.reply.length}
+                  />
+                </View>
+              );
             }}
             keyExtractor={item => `${item.id}`}
           />
@@ -202,7 +191,10 @@ class Dashboard extends Component {
 }
 
 // Connect with redux
-const DashboardContainer = connect((dashboardReducer) => (dashboardReducer), actions)(Dashboard);
+const DashboardContainer = connect(
+  dashboardReducer => dashboardReducer,
+  actions,
+)(Dashboard);
 
 const HomeRouter = createStackNavigator(
   {
@@ -213,16 +205,16 @@ const HomeRouter = createStackNavigator(
         PostDetails,
       },
       {
-        initialRouteName: 'NormalDashboard'
-      }
+        initialRouteName: "NormalDashboard",
+      },
     ),
     NewPost,
   },
   {
     initialRouteName: "Dashboard",
-    mode: 'modal',
-    headerMode: 'none'
-  }
+    mode: "modal",
+    headerMode: "none",
+  },
 );
 
 export default HomeRouter;

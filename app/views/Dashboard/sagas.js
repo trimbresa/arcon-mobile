@@ -16,6 +16,7 @@ function* fetchDashboardAsync() {
     const data = yield call(async () => {
       return DashboardService.fetchDashboard()
         .then((res) => {
+          console.log(res);
           return (res.data);
         });
     });

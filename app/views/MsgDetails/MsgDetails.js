@@ -1,5 +1,7 @@
 import React, {Component} from "react";
 import {View, Platform, FlatList, SafeAreaView, KeyboardAvoidingView} from "react-native";
+import {createStackNavigator, HeaderBackButton} from "react-navigation-stack";
+
 
 // Components
 import MsgDetailsHeader from "../../components/RouterElements/MsgDetailsHeader";
@@ -13,9 +15,13 @@ import msgDetailsStyles from "./assets/styles/msgDetailsStyles";
 import data from "./messages.json";
 
 class MsgDetails extends Component {
-  static navigationOptions = () => {
+  static navigationOptions = ({navigation}) => {
+    let {params = {}} = navigation.state;
+
     return {
-      headerTitle: <MsgDetailsHeader />,
+      headerTitle: <MsgDetailsHeader title={params.title || ""} />,
+      headerLeft:(<HeaderBackButton onPress={() => navigation.goBack(null)}/>),
+      ...params,
     };
   };
 
@@ -68,4 +74,6 @@ class MsgDetails extends Component {
   }
 }
 
-export default MsgDetails;
+export default createStackNavigator({
+  MsgDetails,
+});
