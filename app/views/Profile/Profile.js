@@ -60,7 +60,6 @@ class Profile extends Component {
   };
 
   componentDidMount() {
-    alert("Mnt")
     this.setProfileData();
   }
 
