@@ -5,9 +5,6 @@ import {createAppContainer} from "react-navigation";
 import {connect} from "react-redux";
 import * as actions from "./actions";
 
-// Views
-import MsgDetails from "../MsgDetails";
-
 // Components
 import NotificationsBtn from "../../components/RouterElements/NotificationsBtn";
 import MsgItem from "../../components/Lists/MsgItem";
@@ -18,6 +15,7 @@ import messagesStyles from "./assets/styles/messagesStyles";
 import * as colors from "../../global/styles/colors";
 
 import data from "./messages.json";
+import StorageManager from "../../helpers/StorageManager";
 
 class Messages extends Component {
   static navigationOptions = ({navigation}) => {
@@ -32,7 +30,8 @@ class Messages extends Component {
     isLoading: true
   };
 
-  componentDidMount() {
+  async componentDidMount() {
+    console.log(await StorageManager.get('token'))
     this.props.fetchMessages();
     setTimeout(() => {
       this.setState({
@@ -63,16 +62,17 @@ class Messages extends Component {
             data={messages}
             refreshing={loading}
             onRefresh={this.props.fetchMessages}
-            renderItem={({ item }, key) => (
+            renderItem={({ item }) => (
               <MsgItem
-                key={key}
                 title={`${item.receiverFirstName} ${item.receiverLastName}`}
                 timestamp={`${item.createdAt}`}
                 lastMsg={`You: ${item.body}`}
                 badge={item.badge}
                 avatar={item.avatar}
                 unread={item.isRead === 0 && true}
-                onPress={() => this.props.navigation.navigate("MsgDetails")}
+                onPress={() =>
+                  this.props.navigation.navigate("MsgDetails", { id: item.id, title: `${item.receiverFirstName} ${item.receiverLastName}` })
+                }
               />
             )}
             keyExtractor={item => `${item.id}`}

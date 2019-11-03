@@ -13,7 +13,9 @@ export default function MsgDetailsHeader(props) {
         style={msgDetailsHeaderStyles.avatar}
         onPress={() => props.navigation.navigate("Notifications")}
       >
-        <View style={msgDetailsHeaderStyles.onlineState}/>
+        {
+          props.isOnline && (<View style={msgDetailsHeaderStyles.onlineState}/>)
+        }
       </TouchableOpacity>
       <Text
         style={msgDetailsHeaderStyles.title}

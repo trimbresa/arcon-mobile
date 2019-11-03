@@ -4,6 +4,7 @@ import dashboardSagas from "../views/Dashboard/sagas";
 import scheduleSagas from "../views/Schedule/sagas";
 import newPostSagas from "../views/NewPost/sagas";
 import messagesSagas from "../views/Messages/sagas";
+import messageDetailsSagas from "../views/MsgDetails/sagas";
 
 function* rootSaga () {
   yield all([
@@ -11,6 +12,7 @@ function* rootSaga () {
       fork(scheduleSagas),
       fork(newPostSagas),
       fork(messagesSagas),
+      fork(messageDetailsSagas),
   ]);
 }
 

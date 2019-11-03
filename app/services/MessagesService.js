@@ -11,6 +11,15 @@ class MessagesService extends BaseService {
       url: api.messages,
     });
   }
+
+  /**
+   * @memberof MessagesService
+   */
+  fetchMessageDetails(msgId) {
+    return this.apiGet({
+      url: `${api.messages}/${msgId}`,
+    });
+  }
 }
 
 export default new MessagesService();

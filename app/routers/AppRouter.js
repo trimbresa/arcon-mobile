@@ -57,7 +57,7 @@ const appTabsNavigatorViews = createBottomTabNavigator(
     }
   },
   {
-    initialRouteName: "Messages",
+    initialRouteName: "Dashboard",
     lazy: true,
     tabBarOptions: {
       activeTintColor: primaryColor

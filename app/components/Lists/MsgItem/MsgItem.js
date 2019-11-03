@@ -44,7 +44,7 @@ function MsgItem(props) {
               />
             )
           }
-          <View style={msgItemStyles.onlineBadge} />
+          { props.isOnline && (<View style={msgItemStyles.onlineBadge} />) }
         </View>
         <View
           style={msgItemStyles.msgItemText}
@@ -83,6 +83,7 @@ MsgItem.defaultProps = {
   lastMsg: "Last message...",
   timeStamp: `${new Date()}`,
   badge: 0,
+  isOnline: false,
   onPress: () => alert("Clicked")
 };
 
@@ -92,6 +93,7 @@ MsgItem.propTypes = {
   lastMsg: PropTypes.string,
   timeStamp: PropTypes.string,
   badge: PropTypes.number,
+  isOnline: PropTypes.bool,
   onPress: PropTypes.func
 };
 
