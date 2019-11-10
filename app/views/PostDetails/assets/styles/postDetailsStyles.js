@@ -1,49 +1,56 @@
-import { StyleSheet } from "react-native";
+import {StyleSheet} from "react-native";
 
 // Globals
 import * as colors from "../../../../global/styles/colors";
 import * as fonts from "../../../../global/styles/fonts";
 
 export default StyleSheet.create({
-  postDetailsWrapper: {
-    // fontFamily: fonts.primaryFontMedium,
+  postDetailsSafeArea: {
+    flex: 1
+  },
+  keyboardAvoidingView: {
+    flex: 1
+  },
+  postDetailsMediaWrapper: {
+    height: 200,
+    backgroundColor: colors.primaryColor,
   },
   postDetailsMedia: {
-    height: 210,
-    // alignItems: "center",
-    // justifyContent: 'center',
-    backgroundColor: colors.secondaryColor,
+    flexGrow: 1,
+    paddingVertical: 30,
+    alignContent: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   postDetailsActions: {
     flexDirection: "row",
     paddingVertical: 20,
-    paddingHorizontal: 30
+    paddingHorizontal: 30,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.lightGrey
   },
   postComments: {
-    // flex: 1
-    // flexGrow: 1,
-    //     flex: 1,
+    flexGrow: 1,
+    flex: 1,
   },
   commentsWrapper: {
-    // height: 368,
-    // flexGrow: 1,
-    // borderWidth: 2,
+    flexGrow: 1,
     fontFamily: fonts.primaryFontMedium,
   },
   commentsReplies: {
-    paddingLeft: 40
+    paddingLeft: 40,
   },
   video: {
-    flex: 1
+    flex: 1,
   },
   image: {
-    flex: 1
+    flex: 1,
   },
   postBody: {
-    // paddingTop: 15,
+    paddingTop: 15,
     paddingBottom: 5,
     // alignItems: "center",
-    // justifyContent: "center"
+    // justifyContent: "center",
   },
   postBodyTxt: {
     fontSize: 30,
@@ -51,8 +58,11 @@ export default StyleSheet.create({
     color: colors.white,
   },
   postBodyMedia: {
-    // height: 60,
+    height: 60,
     backgroundColor: colors.lightGrey,
-    // overflow: "hidden"
+    overflow: "hidden",
   },
+  listFooter: {
+    flex: 1
+  }
 });

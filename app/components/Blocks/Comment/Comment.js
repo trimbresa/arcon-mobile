@@ -9,32 +9,32 @@ import CommentBtn from "../../Buttons/CommentBtn";
 import commentStyles from "./assets/styles/commentStyles";
 
 export default function Comment(props) {
-  const { item } = props;
+  // const { item } = props;
 
   return (
     <View style={commentStyles.comment}>
       <View style={commentStyles.commentAvatar}></View>
       <View style={commentStyles.commentText}>
         <Text style={commentStyles.commentTitle}>
-          {item.comment.author}
+          {props.firstName} {props.lastName}
         </Text>
         <Text style={commentStyles.commentDescription}>
-          {item.comment.text}
+          {props.note}
         </Text>
         <View style={commentStyles.commentActions}>
           <LikeBtn
-            liked={item.comment.liked}
+            // liked={item.comment.liked}
             onPress={() => alert("Liked")}
-            likes={item.comment.likes}
+            // likes={item.comment.likes}
           />
-          {
+          {/* {
             !props.hideComment && (
               <CommentBtn
                 onPress={() => alert("Comment!")}
                 comments={item.comment.comments}
               />
             )
-          }
+          } */}
         </View>
       </View>
     </View>

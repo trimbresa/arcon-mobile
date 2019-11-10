@@ -6,7 +6,6 @@ import {
   View,
   TouchableOpacity,
   Text,
-  Button,
   RefreshControl,
 } from "react-native";
 import {createStackNavigator} from "react-navigation-stack";
@@ -22,7 +21,6 @@ import SemiModal from "../../components/Blocks/SemiModal";
 import TodaysSchedule from "../../components/Lists/TodaysSchedule";
 
 // Other views
-import PostDetails from "../PostDetails";
 import NewPost from "../NewPost";
 import ManagerDashboard from "../ManagerDashboard";
 
@@ -40,14 +38,6 @@ class Dashboard extends Component {
 
   state = {
     showModal: false,
-  };
-
-  openPostDetails = (postId, postTitle, postDescription) => {
-    this.props.navigation.navigate(`PostDetails`, {
-      postId,
-      postTitle,
-      postDescription,
-    });
   };
 
   openNewPost = () => {
@@ -90,7 +80,9 @@ class Dashboard extends Component {
                 onPress={() => alert("Press!")}
               />
             )}
-            ListEmptyComponent={() => <Text style={dashboardStyles.dataMsg}>No Schedule for today</Text>}
+            ListEmptyComponent={() => (
+              <Text style={dashboardStyles.dataMsg}>No Schedule for today</Text>
+            )}
           />
         </SemiModal>
         <TouchableOpacity
@@ -158,7 +150,7 @@ class Dashboard extends Component {
             initialNumToRender={8}
             showsVerticalScrollIndicator={false}
             ListEmptyComponent={emptyComponent}
-            renderItem={({item}) => {
+            renderItem={({item, index}) => {
               return (
                 <View style={dashboardStyles.postWrapper}>
                   <Post
@@ -174,7 +166,14 @@ class Dashboard extends Component {
                           }
                         : {}
                     }
-                    // onDetailsPress={() => this.openPostDetails(item.id, item.title, item.description)}
+                    onComment={() =>
+                      this.props.navigation.navigate(`PostDetails`, {
+                        title: `${item.firstName} ${item.lastName}`,
+                        key: index,
+                        id: item.id,
+                        comments: item.reply
+                      })
+                    }
                     // liked={item.liked}
                     likes={item.likes.length}
                     comments={item.reply.length}
@@ -201,14 +200,13 @@ const HomeRouter = createStackNavigator(
     Dashboard: createStackNavigator(
       {
         NormalDashboard: DashboardContainer,
-        GMDashboard: ManagerDashboard,
-        PostDetails,
+        GMDashboard: ManagerDashboard
       },
       {
-        initialRouteName: "NormalDashboard",
-      },
+        initialRouteName: "NormalDashboard"
+      }
     ),
-    NewPost,
+    NewPost
   },
   {
     initialRouteName: "Dashboard",
