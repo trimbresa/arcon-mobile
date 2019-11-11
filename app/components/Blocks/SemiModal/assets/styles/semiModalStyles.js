@@ -2,6 +2,7 @@ import { StyleSheet } from "react-native";
 
 // Globals
 import * as colors from "../../../../../global/styles/colors";
+import * as fonts from "../../../../../global/styles/fonts";
 
 export default StyleSheet.create({
   schedulePopup: {
@@ -17,8 +18,18 @@ export default StyleSheet.create({
     paddingVertical: 20
   },
   schedulePopupHeader: {
+    flexDirection: 'row',
     paddingHorizontal: 20,
-    paddingBottom: 10
+    alignContent: 'center',
+    paddingBottom: 10,
+    justifyContent: 'center'
+  },
+  schedulePopupHeaderTitle: {
+    fontSize: 18,
+    marginLeft: 15,
+    fontFamily: fonts.primaryFontSemiBold,
+    flex: 1,
+    alignSelf: 'center'
   },
   schedulePopupBody: {
     paddingTop: 30,

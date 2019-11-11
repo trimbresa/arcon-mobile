@@ -16,7 +16,7 @@ class StorageManager {
   static async set(key, value) {
     if (key && value) {
       try {
-        await AsyncStorage.setItem(key, value);
+        await AsyncStorage.setItem(key, JSON.stringify(value));
 
         return {
           success: true,
@@ -45,7 +45,8 @@ class StorageManager {
   static async get(key) {
     if (key) {
       try {
-        return await AsyncStorage.getItem(key);
+        const dataFromStorage = await AsyncStorage.getItem(key);
+        return JSON.parse(dataFromStorage);
       } catch (error) {
         console.log(error);
 

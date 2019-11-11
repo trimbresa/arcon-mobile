@@ -8,6 +8,7 @@ export default StyleSheet.create({
   wrapper: {
     // flex: 1,
     // width: 60,
+    flexDirection: 'row',
     alignItems: "center",
   },
   avatar: {
@@ -27,5 +28,10 @@ export default StyleSheet.create({
     borderWidth: 2,
     borderColor: colors.white,
     backgroundColor: colors.green,
+  },
+  title: {
+    fontFamily: fonts.primaryFontMedium,
+    color: colors.black,
+    marginLeft: 15
   }
 });

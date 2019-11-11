@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, Modal, TouchableOpacity } from "react-native";
+import { Text, View, Modal, TouchableOpacity, StatusBar } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 // Styles
@@ -22,6 +22,9 @@ function SemiModal(props) {
             <TouchableOpacity onPress={props.switchToSchedule}>
               <Ionicons name="md-close" size={30} color={colors.black} />
             </TouchableOpacity>
+            <Text style={semiModalStyles.schedulePopupHeaderTitle}>
+              Today's schedule
+            </Text>
           </View>
           <View style={semiModalStyles.schedulePopupBody}>
             { props.children }

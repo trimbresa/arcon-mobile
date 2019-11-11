@@ -44,6 +44,7 @@ export default StyleSheet.create({
     marginBottom: 5
   },
   msgItemTitleUnread: {
+    fontFamily: fonts.primaryFontBold,
     color: colors.primaryColor
   },
   msgItemLastMsg: {
@@ -57,10 +58,11 @@ export default StyleSheet.create({
     justifyContent: "center"
   },
   timestamp: {
+    flex: 1,
     fontFamily: fonts.primaryFontMedium,
     color: colors.secondaryColor,
     marginBottom: 5,
-    fontSize: 12
+    fontSize: 10
   },
   badge: {
     fontFamily: fonts.primaryFontMedium,

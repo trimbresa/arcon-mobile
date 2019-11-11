@@ -4,5 +4,6 @@
   "authenticate": "/authenticate",
   "dashboard": "/dashboard",
   "mySchedule": "/schedules/self",
-  "schedules": "/schedules"
+  "schedules": "/schedules",
+  "messages": "/messages"
 }

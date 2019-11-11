@@ -66,7 +66,7 @@ const Post = (props) => {
       style={postStyles.postWrapper}
     >
       <TouchableOpacity
-        activeOpacity={0.6}
+        activeOpacity={props.onDetailsPress ? 0.6 : 1}
         onPress={props.onDetailsPress}
         style={postStyles.postHeader}
       >
@@ -129,7 +129,6 @@ const Post = (props) => {
 Post.defaultProps = {
   firstName: "",
   lastName: "",
-  onDetailsPress: () => alert("Method not implemented!"),
   avatar: "",
   description: "",
   liked: false,

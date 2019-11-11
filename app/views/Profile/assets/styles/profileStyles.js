@@ -24,6 +24,7 @@ export default StyleSheet.create({
     borderRadius: 120,
     overflow: "hidden",
     bottom: -60,
+    backgroundColor: 'lightgrey',
     // marginTop: -60,
     alignSelf: "center"
   },

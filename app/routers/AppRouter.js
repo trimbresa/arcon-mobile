@@ -7,6 +7,8 @@ import Messages from "../views/Messages";
 import Profile from "../views/Profile";
 import Notifications from "../views/Notifications";
 import Schedule from "../views/Schedule";
+import MsgDetails from "../views/MsgDetails";
+import PostDetails from "../views/PostDetails";
 
 // Icons
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -68,12 +70,13 @@ const appStackNavigatorViews = createStackNavigator(
   {
     App: appTabsNavigatorViews,
     Notifications,
+    MsgDetails,
+    PostDetails,
   },
   {
     initialRouteName: "App",
-    defaultNavigationOptions: {
-      header: null
-    }
+    headerMode: 'none',
+    mode: 'modal'
   }
 );
 

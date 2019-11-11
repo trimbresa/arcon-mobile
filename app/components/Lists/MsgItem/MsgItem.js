@@ -8,6 +8,7 @@ import {
   ImageBackground
 } from "react-native";
 import Feather from "react-native-vector-icons/Feather";
+import moment from "moment";
 
 
 // Styles
@@ -43,7 +44,7 @@ function MsgItem(props) {
               />
             )
           }
-          <View style={msgItemStyles.onlineBadge} />
+          { props.isOnline && (<View style={msgItemStyles.onlineBadge} />) }
         </View>
         <View
           style={msgItemStyles.msgItemText}
@@ -60,7 +61,9 @@ function MsgItem(props) {
         <View
           style={msgItemStyles.msgItemActions}
         >
-          <Text style={msgItemStyles.timestamp}>{props.timeStamp}</Text>
+          <Text style={msgItemStyles.timestamp}>
+            { moment(props.timestamp).fromNow(true) }
+          </Text>
           {
             props.badge > 0 && (
               <View style={msgItemStyles.badge}>
@@ -78,8 +81,9 @@ MsgItem.defaultProps = {
   avatar: "",
   title: "Message Item",
   lastMsg: "Last message...",
-  timeStamp: "41m",
+  timeStamp: `${new Date()}`,
   badge: 0,
+  isOnline: false,
   onPress: () => alert("Clicked")
 };
 
@@ -89,6 +93,7 @@ MsgItem.propTypes = {
   lastMsg: PropTypes.string,
   timeStamp: PropTypes.string,
   badge: PropTypes.number,
+  isOnline: PropTypes.bool,
   onPress: PropTypes.func
 };
 
