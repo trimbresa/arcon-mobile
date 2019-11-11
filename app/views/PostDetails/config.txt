@@ -1,0 +1,4 @@
+pw: RVarcon123
+alias: Arcon
+name: arcon.keystore
+alias pw: RVarcon123
