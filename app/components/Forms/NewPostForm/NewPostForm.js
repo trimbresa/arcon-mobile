@@ -2,6 +2,7 @@ import React, {useState, useEffect, useCallback} from "react";
 import {View, TextInput, Text, TouchableOpacity, Picker} from "react-native";
 import {withNavigation} from "react-navigation";
 import {Formik} from "formik";
+import * as yup from "yup";
 
 import Ionicons from "react-native-vector-icons/Ionicons";
 
@@ -21,20 +22,35 @@ const NewPostForm = ({locations, onSubmit, requestSubmitting, navigation}) => {
   const [attachment, setAttachment] = useState(null);
 
   const onSubmitLocal = (values, actions) => {
-    const post = {
-      locations:
-        values.locations[0] === "all"
-          ? locations.map(a => a.value)
-          : values.locations,
-      note: values.note,
+    const execSubmit = () => {
+      const post = {
+        locations:
+          values.locations[0] === "all"
+            ? locations.map(a => a.value)
+            : values.locations,
+        note: values.note,
+      };
+
+      onSubmit({post, attachment});
+
+      if (!requestSubmitting) {
+        actions.setSubmitting(false);
+        navigation.navigate("Dashboard");
+      }
     };
 
-    onSubmit({post, attachment});
-
-    if (!requestSubmitting) {
-      actions.setSubmitting(false);
-      navigation.navigate("Dashboard");
-    }
+    if (attachment.type === "url") {
+      const schema = yup.string().url("URL is not valid");
+      schema
+        .validate(attachment.url)
+        .then(() => {
+          execSubmit();
+        })
+        .catch(e => {
+          FlashMessageHelper.dangerMessage(e.message);
+        });
+      return;
+    } else execSubmit();
   };
 
   const onChangeAttachment = a => {
