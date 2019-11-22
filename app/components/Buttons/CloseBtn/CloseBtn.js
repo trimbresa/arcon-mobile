@@ -1,5 +1,5 @@
 import React from "react";
-import { TouchableOpacity } from "react-native";
+import {TouchableOpacity} from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 // Style
@@ -12,9 +12,12 @@ export default function CloseBtn(props) {
   return (
     <TouchableOpacity
       style={closeBtnStyles.closeBtnWrapper}
-      onPress={() => props.navigation.goBack(null)}
-    >
-      <MaterialCommunityIcons name="close" size={27} color={colors.secondaryColor}/>
+      onPress={() => props.navigation.goBack(null)}>
+      <MaterialCommunityIcons
+        name="arrow-left"
+        size={27}
+        color={colors.secondaryColor}
+      />
     </TouchableOpacity>
-  )
+  );
 }

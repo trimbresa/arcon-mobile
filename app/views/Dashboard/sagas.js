@@ -4,25 +4,46 @@ import * as constants from "./constants";
 
 // Services
 import DashboardService from "../../services/DashboardService";
+import FilterService from "../../services/FilterService";
 
 // Sagas
 function* watchDashboard() {
-  yield takeEvery(constants.FETCHED_DASHBOARD, fetchDashboardAsync);
+  yield takeEvery(constants.FETCHED_DASHBOARD, fetchPostsAsync);
+  yield takeEvery(constants.FETCHED_LOCATIONS, fetchLocationsAsync);
 }
 
-function* fetchDashboardAsync() {
+function* fetchPostsAsync({value: {pageNr, refresh}}) {
   try {
     yield put(dashboardActions.requestDashboard());
     const data = yield call(async () => {
-      return DashboardService.fetchDashboard()
-        .then((res) => {
-          console.log(res);
-          return (res.data);
-        });
+      return DashboardService.fetchPosts(pageNr).then(res => {
+        // console.log(res);
+        return res.data;
+      });
     });
-    yield put(dashboardActions.requestDashboardSuccess(data));
+    yield put(
+      dashboardActions.requestDashboardSuccess({
+        data,
+        refresh,
+        haveAllPostsLoaded: data.length < 10,
+      }),
+    );
   } catch (error) {
     yield put(dashboardActions.requestDashboardError());
+  }
+}
+
+function* fetchLocationsAsync() {
+  try {
+    const data = yield call(async () => {
+      return FilterService.getAllLocations().then(res => {
+        // console.log(res);
+        return res.data;
+      });
+    });
+    yield put(dashboardActions.requestLocationsSuccess(data));
+  } catch (error) {
+    console.log(error);
   }
 }
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "react-native";
+import {View, Text} from "react-native";
 
 // Components
 import LikeBtn from "../../Buttons/LikeBtn";
@@ -7,26 +7,26 @@ import CommentBtn from "../../Buttons/CommentBtn";
 
 // Styles
 import commentStyles from "./assets/styles/commentStyles";
+import Media from "../Media";
 
-export default function Comment(props) {
-  // const { item } = props;
-
+export default function Comment({
+  comment: {firstName, lastName, note, likes, liked, id, attachment},
+}) {
   return (
     <View style={commentStyles.comment}>
-      <View style={commentStyles.commentAvatar}></View>
+      <View style={commentStyles.commentAvatar} />
       <View style={commentStyles.commentText}>
         <Text style={commentStyles.commentTitle}>
-          {props.firstName} {props.lastName}
+          {firstName} {lastName}
         </Text>
-        <Text style={commentStyles.commentDescription}>
-          {props.note}
-        </Text>
+        <View>
+          <Text style={commentStyles.commentDescription}>{note}</Text>
+          {attachment && attachment.length > 0 && (
+            <Media attachment={attachment[0]} />
+          )}
+        </View>
         <View style={commentStyles.commentActions}>
-          <LikeBtn
-            // liked={item.comment.liked}
-            onPress={() => alert("Liked")}
-            // likes={item.comment.likes}
-          />
+          <LikeBtn liked={!!liked} postId={id} likes={likes} />
           {/* {
             !props.hideComment && (
               <CommentBtn

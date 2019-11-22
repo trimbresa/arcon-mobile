@@ -1,7 +1,6 @@
 import React, {Component, Fragment} from "react";
 import {View, StatusBar, ScrollView, ImageBackground} from "react-native";
 import {createStackNavigator} from "react-navigation-stack";
-import {createAppContainer} from "react-navigation";
 
 // Components
 import LoginForm from "../../components/Forms/LoginForm";
@@ -34,7 +33,7 @@ class Login extends Component {
         }
       })
       .catch(err => {
-        console.dir(err);
+        console.log(err);
         if (err.response && err.response.data) {
           alert(err.response.data);
         } else {
@@ -64,4 +63,4 @@ const LoginRouter = createStackNavigator(
   },
 );
 
-export default createAppContainer(LoginRouter);
+export default LoginRouter;

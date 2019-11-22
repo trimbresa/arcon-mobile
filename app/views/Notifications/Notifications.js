@@ -1,11 +1,6 @@
 import React, {Component, Fragment} from "react";
-import {
-  SafeAreaView,
-  StatusBar,
-  SectionList,
-} from "react-native";
+import {SafeAreaView, StatusBar, SectionList} from "react-native";
 import {createStackNavigator, HeaderBackButton} from "react-navigation-stack";
-import {createAppContainer} from "react-navigation";
 
 // Components
 import SectionTitle from "../../components/Blocks/SectionTitle";
@@ -23,7 +18,7 @@ class Notifications extends Component {
 
     return {
       title: "Notifications",
-      headerLeft:(<HeaderBackButton onPress={() => navigation.goBack(null)}/>),
+      headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />,
       ...params,
     };
   };
@@ -62,4 +57,4 @@ const NotificationsRouter = createStackNavigator({
   Notifications,
 });
 
-export default createAppContainer(NotificationsRouter);
+export default NotificationsRouter;

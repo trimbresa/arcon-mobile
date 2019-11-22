@@ -188,7 +188,8 @@ android {
 }
 
 dependencies {
-    implementation project(':react-native-video')
+    compile project(':react-native-video')
+    implementation "androidx.appcompat:appcompat:1.0.0"
     implementation project(':react-native-vector-icons')
     implementation project(':react-native-reanimated')
     implementation project(':react-native-gesture-handler')

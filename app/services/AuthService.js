@@ -7,6 +7,7 @@ class AuthService extends BaseService {
    * @memberof AuthService
    */
   login(employeeCode = "", password = "") {
+    console.log(employeeCode, password);
     return this.apiPost({
       url: api.authenticate,
       data: {

@@ -1,6 +1,8 @@
-import { black } from "./colors";
+import {black} from "./colors";
+import * as fonts from "./fonts";
+import * as colors from "./colors";
 
-export const shadow = {
+const shadow = {
   shadowColor: black,
   shadowOffset: {
     width: 0,
@@ -10,3 +12,11 @@ export const shadow = {
   shadowRadius: 20,
   elevation: 10,
 };
+
+const placeholderText = {
+  fontFamily: fonts.primaryFontMedium,
+  fontSize: 15,
+  color: colors.grey,
+};
+
+export {shadow, placeholderText};

@@ -1,55 +1,52 @@
 import {takeEvery, put, call, select} from "redux-saga/effects";
 import * as postDetailsActions from "./actions";
 import * as constants from "./constants";
-import { requestDashboardSuccess } from "../Dashboard/actions";
 import StorageManager from "../../helpers/StorageManager";
+import Message from "../../helpers/FlashMessageHelper";
 
 // Services
 import PostService from "../../services/PostService";
 
 // Sagas
-function* watchPostReply() {
-  yield takeEvery(constants.FETCHED_POST_REPLY, fetchPostReplyAsync);
+function* watchPost() {
+  yield takeEvery(constants.COMMENT_ON_POST, postCommentAsync);
+  yield takeEvery(constants.FETCH_POST_COMMENTS, fetchPostCommentsAsync);
 }
 
-function* fetchPostReplyAsync(action) {
+function* postCommentAsync({value}) {
   try {
-    let state = yield select();
-    
-    yield put(postDetailsActions.requestPostReply());
+    yield put(postDetailsActions.requestedPostComment());
 
-    const data = yield call(async () => {
-      return PostService.replyToComment(action.value)
-        .then(async () => {
-          const me = await StorageManager.get("user");
-          
-          const newReply = {
-            firstName: me.firstName,
-            lastName: me.lastName,
-            likes: [],
-            note: action.value.note,
-            reply: [],
-            userId: me.id
-          };
+    yield call(async () => {
+      const comment = await PostService.commentOnPost(value);
 
-          state.dashboardReducer.posts.map((post) => {
-            if(post.id === action.value.postId) {
-              post.reply = [
-                newReply,
-                ...post.reply
-              ]
-            } else {
-              return post;
-            }
-          });
-
-          return state;
-        });
+      if (comment) Message.successMessage(JSON.parse(comment).message);
     });
-    yield put(postDetailsActions.requestPostReplySuccess(data));
+    yield put(postDetailsActions.postCommentSuccess());
   } catch (error) {
-    yield put(postDetailsActions.requestPostReplyError());
+    yield put(postDetailsActions.postCommentError());
   }
 }
 
-export default watchPostReply;
+function* fetchPostCommentsAsync({value: {postId, pageNr, refresh}}) {
+  try {
+    yield put(postDetailsActions.requestedPostComments());
+    const data = yield call(async () => {
+      return PostService.fetchComments({postId, pageNr}).then(res => {
+        return res.data;
+      });
+    });
+    yield put(
+      postDetailsActions.requestedPostCommentsSucceeded({
+        data,
+        refresh,
+        haveAllCommentsLoaded: data.length < 10,
+      }),
+    );
+  } catch (error) {
+    console.log(error);
+    yield put(postDetailsActions.requestedPostCommentsError());
+  }
+}
+
+export default watchPost;

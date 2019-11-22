@@ -17,8 +17,6 @@ import * as actions from "./actions";
 // Components
 import NotificationsBtn from "../../components/RouterElements/NotificationsBtn";
 import Post from "../../components/Blocks/Post";
-import SemiModal from "../../components/Blocks/SemiModal";
-import TodaysSchedule from "../../components/Lists/TodaysSchedule";
 
 // Other views
 import NewPost from "../NewPost";
@@ -27,6 +25,8 @@ import ManagerDashboard from "../ManagerDashboard";
 // Styles
 import dashboardStyles from "./assets/styles/dashboardStyles";
 import * as colors from "../../global/styles/colors";
+import {ActivityIndicator} from "react-native-paper";
+import TodaysSchedule from "../../components/Lists/TodaysSchedule/TodaysSchedule";
 
 class Dashboard extends Component {
   static navigationOptions = ({navigation}) => {
@@ -37,64 +37,53 @@ class Dashboard extends Component {
   };
 
   state = {
-    showModal: false,
+    pageNr: -1,
   };
 
   openNewPost = () => {
     this.props.navigation.navigate("NewPost");
   };
 
-  switchToSchedule = () => {
-    this.setState({
-      showModal: !this.state.showModal,
-    });
+  fetchPosts = (refresh = false) => {
+    this.setState(
+      ({pageNr}) => ({
+        pageNr: refresh ? 0 : pageNr + 1,
+      }),
+      () => {
+        const {pageNr} = this.state;
+        this.props.fetchPosts(pageNr, refresh);
+      },
+    );
   };
 
   componentDidMount() {
-    this.props.fetchDashboard();
+    this.fetchPosts(true);
+    this.props.fetchLocations();
   }
 
   render() {
     const {
       posts = [],
-      schedules = [],
-      loading,
-      error,
-    } = this.props.dashboardReducer;
 
-    console.log(schedules);
+      loading,
+      refreshing,
+      error,
+      haveAllPostsLoaded,
+    } = this.props;
 
     const headerComponent = (
-      <>
-        <SemiModal
-          showModal={this.state.showModal}
-          switchToSchedule={this.switchToSchedule}>
-          <FlatList
-            data={[]}
-            keyExtractor={item => item.id}
-            renderItem={({item, key}) => (
-              <TodaysSchedule
-                key={key}
-                icon="clock"
-                text="20 Nov, 19, 8:00AM - 29 Nov, 19, 8:00AM"
-                onPress={() => alert("Press!")}
-              />
-            )}
-            ListEmptyComponent={() => (
-              <Text style={dashboardStyles.dataMsg}>No Schedule for today</Text>
-            )}
-          />
-        </SemiModal>
+      <React.Fragment>
         <TouchableOpacity
           disabled={loading}
           onPress={this.openNewPost}
           style={dashboardStyles.newPostShortcutWrapper}>
-          <Text style={dashboardStyles.newPostShortcut}>
+          <SimpleLineIcons name="plus" color={colors.white} size={13} />
+          <Text style={dashboardStyles.newPostShortcutText}>
             Want to share something?
           </Text>
         </TouchableOpacity>
-        <View style={dashboardStyles.scheduleBtnWrapper}>
-          {/* <TouchableOpacity
+
+        {/* <TouchableOpacity
             style={dashboardStyles.statsBtn}
             onPress={() => this.props.navigation.navigate("GMDashboard")}
           >
@@ -105,16 +94,7 @@ class Dashboard extends Component {
               Stats
             </Text>
           </TouchableOpacity> */}
-          <TouchableOpacity
-            style={dashboardStyles.scheduleBtn}
-            onPress={this.switchToSchedule}>
-            <SimpleLineIcons name="event" size={15} color={colors.black} />
-            <Text style={dashboardStyles.scheduleBtnText}>
-              Today's Schedule
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </>
+      </React.Fragment>
     );
 
     const emptyComponent =
@@ -133,51 +113,49 @@ class Dashboard extends Component {
       <Fragment>
         <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
         <SafeAreaView style={dashboardStyles.dashboardSafeArea}>
+          <TodaysSchedule />
+
           <FlatList
             ListHeaderComponent={headerComponent}
+            ListFooterComponent={
+              !haveAllPostsLoaded ? (
+                <View
+                  style={{
+                    width: "100%",
+                    paddingBottom: 20,
+                    alignItems: "center",
+                  }}>
+                  <ActivityIndicator />
+                </View>
+              ) : (
+                <View />
+              )
+            }
             contentInsetAdjustmentBehavior="automatic"
             contentContainerStyle={dashboardStyles.contentWrapper}
+            onEndReachedThreshold={0.01}
+            onEndReached={e => {
+              this.fetchPosts();
+            }}
             data={posts}
             extraData={posts}
             refreshControl={
               <RefreshControl
-                refreshing={loading}
+                progressViewOffset={30}
+                onRefresh={() => {
+                  this.fetchPosts(true);
+                }}
+                refreshing={refreshing}
                 color={colors.primaryColor}
                 colors={[colors.primaryColor]}
-                onRefresh={this.props.fetchDashboard}
               />
             }
-            initialNumToRender={8}
-            showsVerticalScrollIndicator={false}
+            initialNumToRender={4}
             ListEmptyComponent={emptyComponent}
             renderItem={({item, index}) => {
               return (
                 <View style={dashboardStyles.postWrapper}>
-                  <Post
-                    // avatar={item.avatar}
-                    firstName={item.firstName}
-                    lastName={item.lastName}
-                    timestamp={moment(item.createdOn).format()}
-                    description={item.note}
-                    media={
-                      item.attachment.length
-                        ? {
-                            [item.attachment[0].type]: item.attachment[0].path,
-                          }
-                        : {}
-                    }
-                    onComment={() =>
-                      this.props.navigation.navigate(`PostDetails`, {
-                        title: `${item.firstName} ${item.lastName}`,
-                        key: index,
-                        id: item.id,
-                        comments: item.reply
-                      })
-                    }
-                    // liked={item.liked}
-                    likes={item.likes.length}
-                    comments={item.reply.length}
-                  />
+                  <Post post={item} />
                 </View>
               );
             }}
@@ -191,7 +169,7 @@ class Dashboard extends Component {
 
 // Connect with redux
 const DashboardContainer = connect(
-  dashboardReducer => dashboardReducer,
+  ({dashboardReducer}) => dashboardReducer,
   actions,
 )(Dashboard);
 
@@ -200,13 +178,13 @@ const HomeRouter = createStackNavigator(
     Dashboard: createStackNavigator(
       {
         NormalDashboard: DashboardContainer,
-        GMDashboard: ManagerDashboard
+        GMDashboard: ManagerDashboard,
       },
       {
-        initialRouteName: "NormalDashboard"
-      }
+        initialRouteName: "NormalDashboard",
+      },
     ),
-    NewPost
+    NewPost,
   },
   {
     initialRouteName: "Dashboard",

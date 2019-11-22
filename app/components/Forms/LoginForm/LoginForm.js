@@ -19,19 +19,14 @@ export default function LoginForm(props) {
         await props.authenticate(values);
         props.navigation.navigate("AuthLoading");
       }}
-      validationSchema={validationSchema}
-    >
+      validationSchema={validationSchema}>
       {props => (
-        <View
-          style={loginFormStyles.loginFormWrapper}
-        >
-          <Text
-            style={loginFormStyles.loginFormTitle}
-          >
+        <View style={loginFormStyles.loginFormWrapper}>
+          <Text style={loginFormStyles.loginFormTitle}>
             Login to your account
           </Text>
-          
-          <View style={loginFormStyles.loginFieldsWrapper} >
+
+          <View style={loginFormStyles.loginFieldsWrapper}>
             <View style={loginFormStyles.loginFieldsGroup}>
               <TextInput
                 onChangeText={props.handleChange("employeeCode")}
@@ -45,10 +40,10 @@ export default function LoginForm(props) {
                 autoCorrect={false}
                 keyboardType="numeric"
               />
-              <Text
-                style={loginFormStyles.fieldMsg}
-              >
-                {props.touched.email && props.errors.email && props.errors.email}
+              <Text style={loginFormStyles.fieldMsg}>
+                {props.touched.email &&
+                  props.errors.email &&
+                  props.errors.email}
               </Text>
             </View>
             <View style={loginFormStyles.loginFieldsGroup}>
@@ -61,37 +56,28 @@ export default function LoginForm(props) {
                 placeholderTextColor={colors.secondaryColor}
                 secureTextEntry={true}
               />
-              <Text
-                style={loginFormStyles.fieldMsg}
-              >
-                {props.touched.password && props.errors.password && props.errors.password}
+              <Text style={loginFormStyles.fieldMsg}>
+                {props.touched.password &&
+                  props.errors.password &&
+                  props.errors.password}
               </Text>
             </View>
           </View>
 
-          <View
-            style={loginFormStyles.submitBtnWrapper}
-          >
+          <View style={loginFormStyles.submitBtnWrapper}>
             <TouchableOpacity
               onPress={props.handleSubmit}
               disabled={props.isSubmitting}
               style={[
                 loginFormStyles.submitBtn,
-                props.isSubmitting && loginFormStyles.submitBtnInProgress
+                props.isSubmitting && loginFormStyles.submitBtnInProgress,
               ]}
-              activeOpacity={0.9}
-            >
+              activeOpacity={0.9}>
               <>
-                <Text
-                  style={loginFormStyles.submitBtnLabel}
-                >
-                  {props.isSubmitting ? 'Logging in...' : 'Login'}
+                <Text style={loginFormStyles.submitBtnLabel}>
+                  {props.isSubmitting ? "Logging in..." : "Login"}
                 </Text>
-                <Feather
-                  name="arrow-right"
-                  color={colors.white}
-                  size={20}
-                />
+                <Feather name="arrow-right" color={colors.white} size={20} />
               </>
             </TouchableOpacity>
           </View>

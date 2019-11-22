@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import {StyleSheet} from "react-native";
 
 // Globals
 import * as colors from "../../../../../global/styles/colors";
@@ -8,10 +8,10 @@ export default StyleSheet.create({
   likeBtn: {
     flexDirection: "row",
     alignItems: "center",
-    marginRight: 25
+    marginRight: 25,
   },
   likesSpan: {
     fontFamily: fonts.primaryFontMedium,
-    marginLeft: 3
-  }
+    marginLeft: 3,
+  },
 });

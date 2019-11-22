@@ -23,8 +23,8 @@ const CommentBtn = props => {
           commentBtnStyles.commentsSpan,
           {
             fontSize: props.commentsTextSize,
-            color: props.color
-          }
+            color: props.color,
+          },
         ]}>
         {props.comments}
       </Text>
@@ -37,7 +37,7 @@ CommentBtn.defaultProps = {
   color: secondaryColor,
   size: 20,
   commentsTextSize: 15,
-  onPress: () => alert("onPress method is missing!"),
+  onPress: () => {},
 };
 
 CommentBtn.propTypes = {

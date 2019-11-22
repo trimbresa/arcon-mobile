@@ -1,21 +1,9 @@
-import React from "react";
-import {
-  View,
-  TextInput,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  ImageBackground,
-  Picker,
-} from "react-native";
+import React, {useState, useEffect, useCallback} from "react";
+import {View, TextInput, Text, TouchableOpacity, Picker} from "react-native";
 import {withNavigation} from "react-navigation";
 import {Formik} from "formik";
 
-import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
-// import AntDesign from "react-native-vector-icons/AntDesign";
-import Entypo from "react-native-vector-icons/Entypo";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 // Formik
 import validationSchema from "./validationSchema";
@@ -25,64 +13,70 @@ import initialValues from "./initialValues";
 import newPostFormStyles from "./assets/styles/newPostFormStyles";
 import * as colors from "../../../global/styles/colors";
 
-const NewPostForm = (props) => {
+import Attachment from "../../Blocks/Attachment";
+import FlashMessageHelper from "../../../helpers/FlashMessageHelper";
+import {ActivityIndicator} from "react-native-paper";
+
+const NewPostForm = ({locations, onSubmit, requestSubmitting, navigation}) => {
+  const [attachment, setAttachment] = useState(null);
+
+  const onSubmitLocal = (values, actions) => {
+    const post = {
+      locations:
+        values.locations[0] === "all"
+          ? locations.map(a => a.value)
+          : values.locations,
+      note: values.note,
+    };
+
+    onSubmit({post, attachment});
+
+    if (!requestSubmitting) {
+      actions.setSubmitting(false);
+      navigation.navigate("Dashboard");
+    }
+  };
+
+  const onChangeAttachment = a => {
+    setAttachment(a);
+  };
+
   return (
     <Formik
-      initialValues={initialValues({locations: props.locations})}
+      initialValues={initialValues}
       enableReinitialize={true}
-      onSubmit={(values, actions) => {
-        const valuesToSend = Object.assign({}, values);
-
-        // Reove unwanted data from being sent to API 
-        delete valuesToSend.selectedLocation;
-        delete valuesToSend.activePost;
-
-        props.onSubmit(valuesToSend);
-
-        if(!props.requestSubmitting){
-          actions.setSubmitting(false);
-          alert("Your post has been submitted successfully.");
-          props.fetchDashboard();
-          props.navigation.navigate("Dashboard");
-        }
-      }}
+      onSubmit={onSubmitLocal}
+      validateOnChange={false}
+      validateOnBlur={false}
       validationSchema={validationSchema}>
       {({
         values,
-        setFieldValue,
         handleChange,
         handleBlur,
-        touched,
         errors,
         handleSubmit,
-      }) => (
-        <>
-          <View style={newPostFormStyles.locationPickerHeader}>
-            <Text style={newPostFormStyles.newPostFormLabel}>Location</Text>
+        setFieldValue,
+      }) => {
+        if (errors.note) FlashMessageHelper.dangerMessage(errors.note);
+
+        return (
+          <View style={newPostFormStyles.wrapper}>
+            <Text style={newPostFormStyles.newPostLocationLabel}>Location</Text>
+
             <Picker
-              selectedValue={values.selectedLocation}
-              style={{flex: 1}}
-              onValueChange={(location, key) => {
-                if(location === "all") {
-                  setFieldValue("selectedLocation", location);
-                  return setFieldValue("locations", props.locations.map(l => l.id));
-                } else {
-                  setFieldValue("selectedLocation", location);
-                  setFieldValue("locations", [location]);
-                }
-              }}
-            >
+              style={newPostFormStyles.locationPicker}
+              selectedValue={values.locations[0]}
+              onValueChange={l => setFieldValue("locations", [l])}>
               <Picker.Item label="All Locations" value="all" />
-              {props.locations.map((location, key) => (
+              {locations.map((location, key) => (
                 <Picker.Item
                   key={key}
-                  label={location.description}
-                  value={location.code}
+                  label={location.name}
+                  value={location.value}
                 />
               ))}
             </Picker>
-          </View>
-          <View style={newPostFormStyles.newPostWrapper}>
+
             <TextInput
               value={values.note}
               placeholder="Want to share something?"
@@ -92,88 +86,30 @@ const NewPostForm = (props) => {
               multiline={true}
               autoCorrect={false}
             />
-            <Text style={newPostFormStyles.fieldMsg}>
-              {touched.note && errors.note && errors.note}
-            </Text>
-          </View>
-          {values.activePost === "photo" && (
-            <ScrollView
-              horizontal={true}
-              contentContainerStyle={newPostFormStyles.newPostPreview}
-              showsHorizontalScrollIndicator={false}>
-              <TouchableOpacity style={newPostFormStyles.newPostPreviewMedia}>
-                <ImageBackground
-                  source={{
-                    uri:
-                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1l2aCzdkOzhPQhgH11qxegC1LbZq30UMw8vtgAFOqL892arOv_A",
-                  }}
-                  style={newPostFormStyles.newPostPreviewImage}>
-                  <TouchableOpacity style={newPostFormStyles.deleteBtn}>
-                    <Ionicons name="md-trash" size={16} color={colors.white} />
-                  </TouchableOpacity>
-                </ImageBackground>
-              </TouchableOpacity>
-            </ScrollView>
-          )}
-          <ScrollView
-            horizontal={true}
-            contentContainerStyle={newPostFormStyles.newPostFooter}
-            showsHorizontalScrollIndicator={false}>
-            <TouchableOpacity
-              style={[
-                newPostFormStyles.newPostTypeLabel,
-                values.activePost === "text" &&
-                  newPostFormStyles.newPostTypeLabelActive,
-              ]}
-              onPress={() => setFieldValue("activePost", "text")}>
-              <Entypo name="text" size={19} color={colors.green} />
-              <Text style={newPostFormStyles.newPostTypeLabelText}>Text</Text>
-            </TouchableOpacity>
-            {/* <TouchableOpacity
-              style={[
-                newPostFormStyles.newPostTypeLabel,
-                props.values.activePost === "photo" &&
-                  newPostFormStyles.newPostTypeLabelActive,
-              ]}
-              onPress={() => props.setFieldValue("activePost", "photo")}>
-              <SimpleLineIcons
-                name="picture"
-                size={18}
-                color={colors.primaryColor}
-              />
-              <Text
-                style={[
-                  newPostFormStyles.newPostTypeLabelText,
-                  props.values.activePost === "photo" &&
-                    newPostFormStyles.newPostTypeLabelActive,
-                ]}>
-                Photo
-              </Text>
-            </TouchableOpacity> */}
-            {/* <TouchableOpacity style={newPostFormStyles.newPostTypeLabel}>
-              <AntDesign name="videocamera" size={18} color={colors.red} />
-              <Text style={newPostFormStyles.newPostTypeLabelText}>Video</Text>
-            </TouchableOpacity> */}
-          </ScrollView>
-          <View style={newPostFormStyles.footerWrapper}>
+
+            <Attachment
+              style={{marginVertical: 15}}
+              onChangeAttachment={onChangeAttachment}
+            />
+
             <TouchableOpacity
               onPress={handleSubmit}
-              style={[newPostFormStyles.submitBtn]}
-            >
+              style={newPostFormStyles.submitBtn}>
               <Text style={newPostFormStyles.submitBtnLabel}>
-                {props.requestSubmitting ? "Submitting... " : "Submit "}
-                <MaterialCommunityIcons
-                  name="send"
-                  size={16}
-                  color={colors.white}
-                />
+                {requestSubmitting ? "Submitting... " : "Submit "}
               </Text>
+
+              {requestSubmitting ? (
+                <ActivityIndicator color={"white"} />
+              ) : (
+                <Ionicons name="ios-send" size={18} color={colors.white} />
+              )}
             </TouchableOpacity>
           </View>
-        </>
-      )}
+        );
+      }}
     </Formik>
   );
-}
+};
 
 export default withNavigation(NewPostForm);

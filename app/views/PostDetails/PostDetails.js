@@ -9,11 +9,13 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   SafeAreaView,
+  RefreshControl,
 } from "react-native";
 import Video from "react-native-video";
 import {createStackNavigator} from "react-navigation-stack";
 import {connect} from "react-redux";
 import * as actions from "./actions";
+import {ActivityIndicator} from "react-native-paper";
 
 // Components
 import LikeBtn from "../../components/Buttons/LikeBtn/LikeBtn";
@@ -22,11 +24,15 @@ import Comment from "../../components/Blocks/Comment";
 
 // Styles
 import postDetailsStyles from "./assets/styles/postDetailsStyles";
+import {placeholderText} from "../../global/styles/globalStyles";
+import * as colors from "../../global/styles/colors";
 
 // Data
 import ObjectHelper from "../../helpers/ObjectHelper";
 import CloseBtn from "../../components/Buttons/CloseBtn";
 import MsgInput from "../../components/Blocks/MsgInput";
+import Media from "../../components/Blocks/Media";
+import DateHelper from "../../helpers/DateHelper";
 
 class PostDetails extends Component {
   static navigationOptions = ({navigation}) => {
@@ -40,76 +46,124 @@ class PostDetails extends Component {
   };
 
   state = {
-    text: "",
+    pageNr: -1,
+    post: {},
   };
 
-  onChangeText = text => {
-    this.setState({
-      text,
-    });
+  fetchComments = (refresh = false) => {
+    const {
+      post: {id},
+      pageNr,
+    } = this.state;
+
+    const newPageNr = refresh ? 0 : pageNr + 1;
+
+    this.setState(
+      {
+        pageNr: newPageNr,
+      },
+      () => {
+        this.props.fetchPostComments(id, newPageNr, refresh);
+      },
+    );
   };
 
-  onSend = async () => {
-    const {text} = this.state;
-    const {id = 1} = this.props.navigation.state.params;
-    let newReply = {
-      note: text,
+  componentDidUpdate = (p, c) => {
+    if (p.isSubmitting && !c.isSubmitting) this.fetchComments(true);
+  };
+
+  componentDidMount() {
+    const post = this.props.navigation.getParam("post");
+    this.setState({post, comments: []}, () => this.fetchComments(true));
+  }
+
+  onSend = ({note, attachment}) => {
+    const {id} = this.state.post;
+    let comment = {
+      note,
       postId: id,
     };
 
-    await this.props.fetchPostReply(newReply);
-    this.setState({text: ""}, () => Keyboard.dismiss());
+    this.props.postComment({comment, attachment});
     this.postDetailsReplies.scrollToOffset({offset: 0, animated: true});
   };
 
   render() {
-    const {params = {}} = this.props.navigation.state;
-    const {key = 0} = params;
-    const {posts = []} = this.props.dashboardReducer;
-    const {isSubmitting} = this.props.postDetailsReducer;
+    const {
+      post: {
+        id,
+        note,
+        firstName = "Redi",
+        lastName = "Bello",
+        likes,
+        liked,
+        comments: commentNr,
+        attachment,
+        avatar,
+        createdOn,
+      },
+    } = this.state;
 
-    const {reply = []} = posts.length ? posts[key] : {};
-
-    // const image = media.image && (
-    //   <ImageBackground
-    //     source={{uri: media.image}}
-    //     style={postDetailsStyles.image}
-    //   />
-    // );
-
-    // const video = media.video && (
-    //   <Video
-    //     source={{uri: media.video}}
-    //     controls={true}
-    //     playInBackground={false}
-    //     style={postDetailsStyles.video}
-    //     paused={true}
-    //   />
-    // );
+    const {
+      isSubmitting,
+      haveAllCommentsLoaded,
+      comments,
+      refreshing,
+      loading,
+      error,
+    } = this.props;
 
     const headerComponent = (
-      <>
-        <View style={postDetailsStyles.postDetailsMediaWrapper}>
-          <ScrollView
-            contentContainerStyle={postDetailsStyles.postDetailsMedia}>
-            <Text style={postDetailsStyles.postBodyTxt}>{posts[key].note}</Text>
-            {/* {ObjectHelper.objNotNull(media) && (
-            <>
-              {image}
-              {video}
-            </>
-          )} */}
-          </ScrollView>
+      <React.Fragment>
+        <View style={postDetailsStyles.headerWrapper}>
+          <View style={postDetailsStyles.detailsWrapper}>
+            <View style={postDetailsStyles.avatar}>
+              {avatar ? (
+                <ImageBackground source={{uri: avatar}} style={{}} />
+              ) : (
+                <Text style={{}}>
+                  {firstName[0]} {lastName[0]}
+                </Text>
+              )}
+            </View>
+
+            <View style={postDetailsStyles.infoWrapper}>
+              <Text numberOfLines={1} style={postDetailsStyles.name}>
+                {firstName} {lastName}
+              </Text>
+              <Text numberOfLines={1} style={postDetailsStyles.time}>
+                {DateHelper.formatFromNow(createdOn)}
+              </Text>
+            </View>
+          </View>
+
+          <Text style={postDetailsStyles.postNote}>{note}</Text>
+
+          {attachment && attachment.length > 0 && (
+            <Media attachment={attachment[0]} />
+          )}
         </View>
+
         <View style={postDetailsStyles.postDetailsActions}>
-          <LikeBtn
-            // liked={post.liked}
-            // onPress={() => alert("Liked")}
-            likes={0}
-          />
-          <CommentBtn onPress={() => false} comments={reply.length} />
+          <LikeBtn liked={!!liked} postId={id} likes={likes} />
+          <CommentBtn comments={commentNr} />
         </View>
-      </>
+      </React.Fragment>
+    );
+
+    const emptyComponent = (
+      <View style={{padding: 20}}>
+        {!loading && !error && !comments.length ? (
+          <Text style={placeholderText}>No comments to show.</Text>
+        ) : (
+          !loading &&
+          error && (
+            <Text style={placeholderText}>
+              Couldn't load your data. Try again later!
+            </Text>
+          )
+        )}
+      </View>
     );
 
     return (
@@ -117,41 +171,47 @@ class PostDetails extends Component {
         <KeyboardAvoidingView
           style={postDetailsStyles.keyboardAvoidingView}
           behavior={Platform.OS === "ios" ? "height" : false}
-          keyboardVerticalOffset={Platform.OS === "ios" ? 120 : 90}
-          enabled>
+          keyboardVerticalOffset={Platform.OS === "ios" ? 120 : 90}>
           {headerComponent}
+
           <FlatList
             ref={ref => {
               this.postDetailsReplies = ref;
             }}
-            data={reply}
+            ListEmptyComponent={emptyComponent}
+            data={comments}
+            onEndReached={() => this.fetchComments()}
+            onEndReachedThreshold={0.01}
             contentContainerStyle={postDetailsStyles.commentsWrapper}
-            showsVerticalScrollIndicator={false}
-            renderItem={({item}) => (
-              <>
-                <Comment
-                  firstName={item.firstName}
-                  lastName={item.lastName}
-                  note={item.note}
-                />
-                {/* <View style={postDetailsStyles.commentsReplies}>
-                {item.replies &&
-                  item.replies.map((reply, key) => (
-                    <Comment hideComment={true} key={key} item={reply} />
-                  ))}
-              </View> */}
-              </>
-            )}
-            keyExtractor={(item, index) => `${index}`}
+            refreshControl={
+              <RefreshControl
+                progressViewOffset={30}
+                onRefresh={() => {
+                  this.fetchComments(true);
+                }}
+                refreshing={refreshing}
+                colors={[colors.primaryColor, colors.red]}
+              />
+            }
+            renderItem={({item}) => <Comment comment={item} />}
+            ListFooterComponent={
+              !haveAllCommentsLoaded ? (
+                <View
+                  style={{
+                    width: "100%",
+                    paddingBottom: 20,
+                    alignItems: "center",
+                  }}>
+                  <ActivityIndicator />
+                </View>
+              ) : (
+                <View />
+              )
+            }
+            keyExtractor={({id}) => `${id}`}
           />
 
-          <MsgInput
-            placeholder="Write a comment..."
-            value={this.state.text}
-            onChangeText={this.onChangeText}
-            onSend={this.onSend}
-            isLoading={isSubmitting}
-          />
+          <MsgInput onSend={this.onSend} isSubmitting={isSubmitting} />
         </KeyboardAvoidingView>
       </SafeAreaView>
     );
@@ -159,16 +219,11 @@ class PostDetails extends Component {
 }
 
 // Connect with redux
-const DashboardContainer = connect(
-  dashboardReducer => dashboardReducer,
+const PostDetailsContainer = connect(
+  ({postDetailsReducer}) => postDetailsReducer,
   actions,
 )(PostDetails);
 
-export default createStackNavigator(
-  {
-    DashboardContainer,
-  },
-  {
-    mode: "modal",
-  },
-);
+export default createStackNavigator({
+  PostDetailsContainer,
+});

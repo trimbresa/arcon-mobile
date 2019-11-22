@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import {StyleSheet} from "react-native";
 
 // Globals
 import * as colors from "../../../../../global/styles/colors";
@@ -10,29 +10,36 @@ export default StyleSheet.create({
     backgroundColor: `rgba(23, 25, 29, 0.6)`,
     flex: 1,
   },
+  exitWrapper: {
+    width: 50,
+    height: 50,
+    borderRadius: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    // backgroundColor: "blue",
+  },
   schedulePopupContent: {
     flex: 1,
     backgroundColor: colors.white,
     borderTopLeftRadius: 12,
     borderTopRightRadius: 12,
-    paddingVertical: 20
   },
   schedulePopupHeader: {
-    flexDirection: 'row',
-    paddingHorizontal: 20,
-    alignContent: 'center',
-    paddingBottom: 10,
-    justifyContent: 'center'
+    flexDirection: "row",
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    alignContent: "center",
+    justifyContent: "center",
   },
   schedulePopupHeaderTitle: {
     fontSize: 18,
-    marginLeft: 15,
+    marginLeft: 5,
     fontFamily: fonts.primaryFontSemiBold,
     flex: 1,
-    alignSelf: 'center'
+    alignSelf: "center",
   },
   schedulePopupBody: {
-    paddingTop: 30,
-    flex: 1
-  }
+    paddingTop: 10,
+    flex: 1,
+  },
 });

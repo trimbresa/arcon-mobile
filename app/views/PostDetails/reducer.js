@@ -2,39 +2,59 @@ import * as constants from "./constants";
 
 const initialState = {
   isSubmitting: false,
-  myId: null,
   error: false,
+  commentsLoading: true,
+  comments: [],
+  refreshing: false,
+  haveAllCommentsLoaded: false,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case constants.FETCHED_POST_REPLY:
-      return {
-        ...state,
-        isSubmitting: false,
-        myId: null,
-      };
-    case constants.REQUESTED_POST_REPLY:
+    case constants.REQUESTED_COMMENT_ON_POST:
       return {
         ...state,
         isSubmitting: true,
-        error: false,
-        myId: null,
       };
-    case constants.REQUESTED_POST_REPLY_SUCCEEDED:
+    case constants.REQUESTED_COMMENT_ON_POST_SUCCEEDED:
       return {
         ...state,
         isSubmitting: false,
         error: false,
-        myId: action.value.myId,
+        comments: [],
       };
-    case constants.REQUESTED_POST_REPLY_FAILED:
+    case constants.REQUESTED_COMMENT_ON_POST_FAILED:
       return {
         ...state,
         isSubmitting: false,
         error: true,
-        myId: null,
       };
+
+    // comments
+    case constants.REQUESTED_POST_COMMENTS:
+      return {
+        ...state,
+        commentsLoading: true,
+      };
+
+    case constants.REQUESTED_POST_COMMENTS_FAILED:
+      return {
+        ...state,
+        error: true,
+        commentsLoading: false,
+      };
+
+    case constants.REQUESTED_POST_COMMENTS_SUCCEEDED:
+      return {
+        ...state,
+        error: false,
+        commentsLoading: false,
+        comments: action.value.refresh
+          ? action.value.data
+          : [...state.comments, ...action.value.data],
+        haveAllCommentsLoaded: action.value.haveAllCommentsLoaded,
+      };
+
     default:
       return state;
   }

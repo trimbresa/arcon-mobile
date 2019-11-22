@@ -1,43 +1,74 @@
-import React, {useState} from "react";
+import React, {useState, useCallback} from "react";
 import PropTypes from "prop-types";
 import {
   View,
   TextInput,
   TouchableOpacity,
   ActivityIndicator,
-  TouchableWithoutFeedback,
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 // Styles
 import msgInputStyles from "./assets/styles/msgInputStyles";
 import * as colors from "../../../global/styles/colors";
+import FlashMessageHelper from "../../../helpers/FlashMessageHelper";
+import Attachment from "../Attachment";
 
-const MsgInput = props => {
+const MsgInput = ({isSubmitting, icon, onSend}) => {
+  const [attachment, setAttachment] = useState(null);
+  const [note, setNote] = useState("");
+
+  const onSendLocal = useCallback(() => {
+    if (note) {
+      onSend({note, attachment: attachment ? attachment.data : attachment});
+      setNote("");
+      setAttachment(false);
+    } else
+      FlashMessageHelper.dangerMessage(
+        "Please write a comment before you submit",
+      );
+  }, [note, attachment, onSend]);
+
+  console.log(attachment);
+
   return (
     <View style={msgInputStyles.wrapper}>
-      <TextInput
-        style={msgInputStyles.input}
-        placeholder={props.placeholder}
-        autoCapitalize="none"
-        autoCorrect={false}
-        multiline={true}
-        value={props.value}
-        onChangeText={props.onChangeText}
+      <Attachment
+        style={{
+          paddingLeft: "3%",
+          paddingRight: attachment ? "3%" : "0%",
+          backgroundColor: colors.white,
+        }}
+        attachment={attachment}
+        onChangeAttachment={a => setAttachment(a)}
       />
-      {props.isLoading ? (
-        <TouchableOpacity activeOpacity={1} style={msgInputStyles.sendBtn}>
-          <ActivityIndicator/>
-        </TouchableOpacity>
-      ) : (
-        <TouchableOpacity onPress={props.onSend} style={msgInputStyles.sendBtn}>
-          <Ionicons
-            name={props.icon ? props.icon : "ios-send"}
-            size={28}
-            color={colors.primaryColor}
-          />
-        </TouchableOpacity>
-      )}
+      <View style={msgInputStyles.inputWrapper}>
+        <TextInput
+          style={msgInputStyles.input}
+          placeholder="Post a comment..."
+          autoCapitalize="none"
+          autoCorrect={false}
+          multiline={true}
+          value={note}
+          editable={!isSubmitting}
+          onChangeText={t => setNote(t)}
+        />
+        <View style={{flexDirection: "row", alignItems: "center"}}>
+          <TouchableOpacity
+            onPress={onSendLocal}
+            style={msgInputStyles.sendBtn}>
+            {isSubmitting ? (
+              <ActivityIndicator />
+            ) : (
+              <Ionicons
+                name={icon ? icon : "ios-send"}
+                size={28}
+                color={colors.primaryColor}
+              />
+            )}
+          </TouchableOpacity>
+        </View>
+      </View>
     </View>
   );
 };

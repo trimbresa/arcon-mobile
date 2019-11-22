@@ -1,7 +1,13 @@
 import React, {Component, Fragment} from "react";
-import {View, Text, SafeAreaView, StatusBar, FlatList, ActivityIndicator} from "react-native";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  StatusBar,
+  FlatList,
+  ActivityIndicator,
+} from "react-native";
 import {createStackNavigator} from "react-navigation-stack";
-import {createAppContainer} from "react-navigation";
 import {connect} from "react-redux";
 import * as actions from "./actions";
 
@@ -23,37 +29,34 @@ class Messages extends Component {
       title: "Messages",
       headerRight: <NotificationsBtn navigation={navigation} />,
     };
-  }
+  };
 
   state = {
     messages: [],
-    isLoading: true
+    isLoading: true,
   };
 
   async componentDidMount() {
-    console.log(await StorageManager.get('token'))
+    console.log(await StorageManager.get("token"));
     this.props.fetchMessages();
     setTimeout(() => {
       this.setState({
         messages: data,
-        isLoading: false
+        isLoading: false,
       });
     }, 700);
   }
 
   refresh = () => {
     this.setState(prevState => ({
-      messages: [
-        ...prevState.messages,
-        ...data
-      ],
-      isLoading: false
+      messages: [...prevState.messages, ...data],
+      isLoading: false,
     }));
-  }
+  };
 
   render() {
-    const { messages = [], loading } = this.props.messagesReducer;
-    
+    const {messages = [], loading} = this.props.messagesReducer;
+
     return (
       <Fragment>
         <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
@@ -62,7 +65,7 @@ class Messages extends Component {
             data={messages}
             refreshing={loading}
             onRefresh={this.props.fetchMessages}
-            renderItem={({ item }) => (
+            renderItem={({item}) => (
               <MsgItem
                 title={`${item.receiverFirstName} ${item.receiverLastName}`}
                 timestamp={`${item.createdAt}`}
@@ -71,20 +74,24 @@ class Messages extends Component {
                 avatar={item.avatar}
                 unread={item.isRead === 0 && true}
                 onPress={() =>
-                  this.props.navigation.navigate("MsgDetails", { id: item.id, title: `${item.receiverFirstName} ${item.receiverLastName}` })
+                  this.props.navigation.navigate("MsgDetails", {
+                    id: item.id,
+                    title: `${item.receiverFirstName} ${item.receiverLastName}`,
+                  })
                 }
               />
             )}
             keyExtractor={item => `${item.id}`}
             showsVerticalScrollIndicator={false}
-            ListEmptyComponent={() => (!loading && !messages.length)  && (<NoMsgItem/>)}
+            ListEmptyComponent={() =>
+              !loading && !messages.length && <NoMsgItem />
+            }
           />
         </SafeAreaView>
       </Fragment>
     );
   }
 }
-
 
 // Connect with redux
 const MessagesContainer = connect(
@@ -94,15 +101,15 @@ const MessagesContainer = connect(
 
 const MessagesRouter = createStackNavigator(
   {
-    Messages: MessagesContainer
+    Messages: MessagesContainer,
   },
   {
     initialRouteName: "Messages",
     mode: "modal",
     navigationOptions: {
       tabBarVisible: false,
-    }
+    },
   },
 );
 
-export default createAppContainer(MessagesRouter);
+export default MessagesRouter;

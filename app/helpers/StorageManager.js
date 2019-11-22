@@ -1,5 +1,5 @@
-// import AsyncStorage from '@react-native-community/async-storage';
-import {AsyncStorage} from 'react-native';
+import AsyncStorage from "@react-native-community/async-storage";
+// import {AsyncStorage} from "react-native";
 
 /**
  * @description Manages window.storage
@@ -22,7 +22,7 @@ class StorageManager {
           success: true,
           data: "Storage has been set successfully.",
         };
-      } catch(error) {
+      } catch (error) {
         console.log(error);
 
         return {
@@ -56,7 +56,7 @@ class StorageManager {
       }
     }
 
-    return { error: "Storage key is required!" };
+    return {error: "Storage key is required!"};
   }
 
   /**

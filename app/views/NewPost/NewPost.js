@@ -1,20 +1,10 @@
 import React, {Component, Fragment} from "react";
 import {connect} from "react-redux";
-import {
-  View,
-  TextInput,
-  SafeAreaView,
-  StatusBar,
-  ScrollView,
-  Text
-} from "react-native";
+import {SafeAreaView, StatusBar, ScrollView} from "react-native";
 import {createStackNavigator} from "react-navigation-stack";
-import {createAppContainer} from "react-navigation";
 import * as actions from "./actions";
-import {fetchDashboard} from "../Dashboard/actions";
 
 // Components
-import SendBtn from "../../components/Buttons/SendBtn";
 import CloseBtn from "../../components/Buttons/CloseBtn";
 import NewPostForm from "../../components/Forms/NewPostForm";
 
@@ -26,7 +16,7 @@ class NewPost extends Component {
   static navigationOptions = ({navigation}) => {
     return {
       title: "Create New Post",
-      headerLeft: <CloseBtn navigation={navigation} />
+      headerLeft: <CloseBtn navigation={navigation} />,
     };
   };
 
@@ -35,12 +25,14 @@ class NewPost extends Component {
       <Fragment>
         <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
         <SafeAreaView style={newPostStyles.newPostSafeArea}>
-          <ScrollView keyboardDismissMode="on-drag">
+          <ScrollView
+            keyboardShouldPersistTaps="handled"
+            keyboardDismissMode="on-drag"
+            contentContainerStyle={{flex: 1}}>
             <NewPostForm
               locations={this.props.dashboardReducer.locations}
               onSubmit={this.props.createNewPost}
               requestSubmitting={this.props.newPostReducer.isSubmitting}
-              fetchDashboard={this.props.fetchDashboard}
             />
           </ScrollView>
         </SafeAreaView>
@@ -51,7 +43,7 @@ class NewPost extends Component {
 
 const NewPostContainer = connect(
   ({newPostReducer, dashboardReducer}) => ({newPostReducer, dashboardReducer}),
-  {...actions, fetchDashboard},
+  {...actions},
 )(NewPost);
 
 const NewPostRouter = createStackNavigator(
@@ -60,7 +52,8 @@ const NewPostRouter = createStackNavigator(
   },
   {
     initialRouteName: "NewPost",
+    mode: "modal",
   },
 );
 
-export default createAppContainer(NewPostRouter);
+export default NewPostRouter;

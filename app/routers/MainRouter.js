@@ -1,5 +1,5 @@
-import { createAppContainer, createSwitchNavigator } from "react-navigation";
-import { YellowBox } from 'react-native';
+import {createAppContainer, createSwitchNavigator} from "react-navigation";
+import {YellowBox} from "react-native";
 
 // Routers
 import AuthRouter from "./AuthRouter";
@@ -11,8 +11,8 @@ import StorageManager from "../helpers/StorageManager";
 // Temp solution, surely will be replaced later
 //TODO:CHECK NOT USING THIS LIFECYCLE METHODS. Ignoring change of lifecycle react-native
 YellowBox.ignoreWarnings([
-  'Warning: componentWillMount is deprecated',
-  'Warning: componentWillReceiveProps is deprecated',
+  "Warning: componentWillMount is deprecated",
+  "Warning: componentWillReceiveProps is deprecated",
 ]);
 
 const MainRouter = createSwitchNavigator(
@@ -22,8 +22,8 @@ const MainRouter = createSwitchNavigator(
     App: AppRouter,
   },
   {
-    initialRouteName: 'AuthLoading'
-  }
+    initialRouteName: "AuthLoading",
+  },
 );
 
 export default createAppContainer(MainRouter);

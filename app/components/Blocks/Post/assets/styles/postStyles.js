@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import {StyleSheet} from "react-native";
 
 // Globals
 import * as colors from "../../../../../global/styles/colors";
@@ -17,59 +17,48 @@ export default StyleSheet.create({
     },
     shadowOpacity: 0.08,
     shadowRadius: 20,
-    elevation: 10,
+    // elevation: 10,
   },
   postHeader: {
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
   },
   postAvatar: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     backgroundColor: colors.lightGrey,
     height: 50,
     width: 50,
     borderRadius: 50,
     overflow: "hidden",
-    marginRight: 10
+    marginRight: 10,
   },
   postAvatarMedia: {
-    flex: 1
+    flex: 1,
   },
   avatarInitials: {
-    alignSelf: 'center'
+    alignSelf: "center",
   },
   postHeaderTxt: {},
   postHeaderTitle: {
-    fontSize: 18
+    fontFamily: fonts.primaryFontBold,
+    fontSize: 16,
   },
   postHeaderTime: {
-    color: colors.secondaryColor
+    fontFamily: fonts.primaryFontMedium,
+    color: colors.secondaryColor,
   },
   postBody: {
     paddingTop: 15,
-    paddingBottom: 5
+    paddingBottom: 5,
   },
   postBodyTxt: {
     fontSize: 13,
     fontFamily: fonts.primaryFontMedium,
-    color: colors.black
-  },
-  postBodyMedia: {
-    height: 172,
-    marginTop: 15,
-    backgroundColor: colors.lightGrey,
-    borderRadius: 8,
-    overflow: "hidden"
+    color: colors.black,
   },
   postFooter: {
     paddingTop: 15,
-    flexDirection: "row"
+    flexDirection: "row",
   },
-  video: {
-    flex: 1
-  },
-  image: {
-    flex: 1
-  }
 });

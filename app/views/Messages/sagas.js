@@ -14,10 +14,9 @@ function* fetchMessagesAsync() {
   try {
     yield put(dashboardActions.requestMessages());
     const data = yield call(async () => {
-      return MessagesService.fetchMessages()
-        .then((res) => {
-          return (res.data.receive);
-        });
+      return MessagesService.fetchMessages().then(res => {
+        return res.data.receive;
+      });
     });
     yield put(dashboardActions.requestMessagesSuccess(data));
   } catch (error) {
