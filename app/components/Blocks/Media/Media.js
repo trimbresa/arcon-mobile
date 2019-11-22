@@ -22,15 +22,19 @@ const Video = ({networkData, isLink}) => {
   const [paused, setPaused] = useState(true);
   const [visible, setVisible] = useState(true);
 
-  if (isLink) console.log(networkData.uri);
-
   const isYoutube = isLink && networkData.uri.indexOf("youtube.com") != -1;
+
+  const isVimeo = isLink && networkData.uri.indexOf("vimeo.com") != -1;
 
   let videoId = null;
 
   if (isYoutube) {
     videoId = networkData.uri.split("?")[1];
     videoId = videoId.split("&")[0].split("=")[1];
+  }
+
+  if (isVimeo) {
+    videoId = networkData.uri.split("vimeo.com/")[1];
   }
 
   const timeout = () => {
@@ -61,6 +65,19 @@ const Video = ({networkData, isLink}) => {
           controls={1}
           style={{width: "100%", height: "100%"}}
         />
+      ) : isVimeo ? (
+        <WebView
+          javaScriptEnabled={true}
+          style={mediaStyles.video}
+          source={{
+            html: `<html><body><iframe style="border-radius:70px; overflow:hidden" width='100%' height='100%'
+            src='https://player.vimeo.com/video/${videoId}'
+            frameborder='0'
+            allowfullscreen></iframe>
+            </body>
+            </html>`,
+          }}
+        />
       ) : (
         <RNVideo
           pointerEvents="none"
@@ -68,8 +85,8 @@ const Video = ({networkData, isLink}) => {
           onReadyForDisplay={() => setVisible(true)}
           source={networkData}
           onPlaybackResume={() => console.log("resume")}
-          onLoadStart={e => console.log(e, "start")}
-          onLoad={e => console.log(e, "load")}
+          onLoadStart={e => {}}
+          onLoad={e => {}}
           controls={false}
           playInBackground={false}
           paused={paused}
@@ -78,7 +95,7 @@ const Video = ({networkData, isLink}) => {
         />
       )}
 
-      {!isYoutube && visible && (
+      {!isYoutube && !isVimeo && visible && (
         <View
           style={{
             position: "absolute",
