@@ -1,0 +1,13 @@
+{
+  "aws_bucket": "https://d39ape45in7xa1.cloudfront.net",
+  "baseURL": "https://dev.getarcon.com/api",
+  "authenticate": "/authenticate",
+  "posts": "/posts/with-pages",
+  "newPost": "/posts",
+  "postComment": "/posts/reply",
+  "todaysSchedules": "/dashboard/schedules",
+  "mySchedule": "/schedules/self",
+  "schedules": "/schedules",
+  "messages": "/messages",
+  "resetPassword": "/users/change-password"
+}

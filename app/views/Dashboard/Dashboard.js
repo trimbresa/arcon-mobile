@@ -25,12 +25,16 @@ import ManagerDashboard from "../ManagerDashboard";
 // Styles
 import dashboardStyles from "./assets/styles/dashboardStyles";
 import * as colors from "../../global/styles/colors";
+import {primaryFontBold} from "../../global/styles/fonts";
 import {ActivityIndicator} from "react-native-paper";
 import TodaysSchedule from "../../components/Lists/TodaysSchedule/TodaysSchedule";
 
 class Dashboard extends Component {
   static navigationOptions = ({navigation}) => {
     return {
+      headerTitleStyle: {
+        fontFamily: primaryFontBold,
+      },
       title: "Dashboard",
       headerRight: <NotificationsBtn navigation={navigation} />,
     };

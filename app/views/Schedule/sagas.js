@@ -11,22 +11,23 @@ function* watchSchedule() {
   yield takeEvery(constants.FETCHED_SCHEDULE, fetchScheduleAsync);
 }
 
-function* fetchScheduleAsync() {
+function* fetchScheduleAsync({value: {activeMonth}}) {
+  const startDate = moment(activeMonth).subtract(1, "month");
+  const endDate = moment(activeMonth).add(2, "months");
+
   try {
-    const store = yield select();
     yield put(scheduleActions.requestSchedule());
     const data = yield call(async () => {
-      const activeMonth = store.scheduleReducer.activeMonth;
-
-      const startDate = moment(activeMonth).subtract(1, 'month').toISOString();
-      const endDate = moment(activeMonth).add(2, 'months').toISOString();
-
-      return ScheduleService.fetchSchedule(startDate, endDate)
-        .then((res) => {
-          return (res.data);
-        });
+      return ScheduleService.fetchSchedule(
+        startDate.format("YYYY-MM-DD"),
+        endDate.format("YYYY-MM-DD"),
+      ).then(res => {
+        return res.data;
+      });
     });
-    yield put(scheduleActions.requestScheduleSuccess(data));
+    yield put(
+      scheduleActions.requestScheduleSuccess({data, startDate, endDate}),
+    );
   } catch (error) {
     console.log("Error: ", error);
     yield put(scheduleActions.requestScheduleError());

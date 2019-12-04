@@ -2,7 +2,7 @@ import * as constants from "./constants";
 import moment from "moment";
 
 const initialState = {
-  events: [],
+  events: {},
   activeMonth: moment(),
   resource: null,
   loading: false,
@@ -14,30 +14,30 @@ export default (state = initialState, action) => {
     case constants.FETCHED_SCHEDULE:
       return {
         ...state,
-        // events: [],
         activeMonth: action.value.activeMonth,
         resource: null,
       };
     case constants.REQUESTED_SCHEDULE:
       return {
         ...state,
-        // events: [],
         resource: null,
         loading: true,
         error: false,
       };
     case constants.REQUESTED_SCHEDULE_SUCCEEDED:
+      const {events, resource, mapJobs, mapLocations} = action.value;
       return {
         ...state,
-        events: action.value.events,
-        resource: action.value.resource,
+        events,
+        resource,
+        mapJobs,
+        mapLocations,
         loading: false,
-        error: false
+        error: false,
       };
     case constants.REQUESTED_SCHEDULE_FAILED:
       return {
         ...state,
-        // events: [],
         resource: null,
         loading: false,
         error: true,

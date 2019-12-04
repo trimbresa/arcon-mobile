@@ -8,7 +8,6 @@ class ScheduleService extends BaseService {
    */
   fetchSchedule(startDate, endDate) {
     const params = `?startDate=${startDate}&endDate=${endDate}`;
-
     return this.apiGet({
       url: `${api.mySchedule}${params}`,
     });

@@ -17,6 +17,7 @@ import {createStackNavigator} from "react-navigation-stack";
 
 // Styles
 import {primaryColor} from "../global/styles/colors";
+import {primaryFontBold} from "../global/styles/fonts";
 
 const appTabsNavigatorViews = createBottomTabNavigator(
   {
@@ -66,7 +67,7 @@ const appTabsNavigatorViews = createBottomTabNavigator(
     },
   },
   {
-    initialRouteName: "Dashboard",
+    initialRouteName: "Schedule",
     lazy: true,
     tabBarOptions: {
       activeTintColor: primaryColor,

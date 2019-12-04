@@ -21,7 +21,7 @@ import _ from "lodash";
 // Styles
 import myEmpScheduleStyles from "./assets/styles/myEmpScheduleStyles";
 import * as colors from "../../global/styles/colors";
-import calendarStyles from "../Schedule/assets/styles/calendarStyles";
+import calendarStyles from "../../components/Agenda/assets/styles/calendarStyles";
 
 const today = new Date().toISOString().split("T")[0];
 const fastDate = getPastDate(3);
@@ -175,23 +175,7 @@ class MyEmpSchedule extends Component {
               ))}
             </ScrollView>
           </View>
-          {/* <ScrollView
-            horizontal={true}
-            style={{
-              flex: 1,
-              height: 200
-            }}
-          >
-            <Image
-              source={{
-                uri: "https://i.pravatar.cc/300"
-              }}
-              style={{
-                width: 60,
-                height: 60
-              }}
-            />
-          </ScrollView> */}
+
           <CalendarProvider
             date={ITEMS[0].title}
             onDateChanged={this.onDateChanged}

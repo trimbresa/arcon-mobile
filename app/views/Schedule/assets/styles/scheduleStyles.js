@@ -9,90 +9,30 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: colors.lightGrey,
   },
-  scheduleWrapper: {
-    flex: 1,
-    padding: 30,
+  switchContainer: {
+    flexDirection: "row",
+    height: 40,
+    borderBottomColor: colors.lighterGrey,
+    borderBottomWidth: 1,
   },
-  activeTabTintColor: {
+  switchItem: {
+    flex: 1,
+    backgroundColor: colors.white,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  switchItemText: {
     color: colors.primaryColor,
-  },
-  tabBartab: {
     fontFamily: fonts.primaryFontSemiBold,
+    fontSize: 12,
+    textTransform: "uppercase",
   },
-  tabBar: {
-    backgroundColor: colors.white,
+  switchIndicator: {
+    position: "absolute",
+    bottom: -1,
+    left: 0,
+    width: "50%",
+    height: 1,
+    backgroundColor: colors.primaryColor,
   },
-  tabBarTabLabel: {
-    fontFamily: fonts.primaryFontSemiBold,
-  },
-  indicatorStyle: {
-    backgroundColor: colors.primaryColor
-  },
-  item: {
-    backgroundColor: colors.white,
-    flex: 1,
-    borderRadius: 5,
-    padding: 10,
-    marginRight: 10,
-    marginTop: 17,
-    fontFamily: fonts.primaryFontLight,
-  },
-  itemLabel: {
-    fontFamily: fonts.primaryFontMedium,
-    color: colors.secondaryColor
-  },
-  emptyDate: {
-    height: 15,
-    flex: 1,
-    paddingTop: 30,
-    backgroundColor: colors.white
-  },
-
-  // Custom calendar
-  calendar: {
-    flex: 1,
-    paddingLeft: 20, 
-    paddingRight: 20
-  },
-  section: {
-    backgroundColor: '#f0f4f7', 
-    color: colors.primaryColor
-  },
-  item: {
-    padding: 20, 
-    backgroundColor: colors.white, 
-    borderBottomWidth: 1, 
-    borderBottomColor: '#e8ecf0', 
-    flexDirection: 'row'
-  },
-  itemHourText: {
-    color: colors.black
-  },
-  itemDurationText: {
-    color: colors.black, 
-    fontSize: 12, 
-    marginTop: 4,
-    marginLeft: 4
-  },
-  itemTitleText: {
-    color: colors.black, 
-    marginLeft: 16, 
-    fontWeight: 'bold', 
-    fontSize: 16
-  },
-  itemButtonContainer: {
-    flex: 1, 
-    alignItems: 'flex-end'
-  },
-  emptyItem: {
-    paddingLeft: 20,
-    height: 52, 
-    justifyContent: 'center',
-    borderBottomWidth: 1, 
-    borderBottomColor: '#e8ecf0' 
-  },
-  emptyItemText: {
-    color: '#79838a',
-    fontSize: 14
-  }
 });

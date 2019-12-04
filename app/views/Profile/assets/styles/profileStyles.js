@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import {StyleSheet} from "react-native";
 
 // Globals
 import * as colors from "../../../../global/styles/colors";
@@ -8,7 +8,7 @@ export default StyleSheet.create({
   homeSafeArea: {
     flex: 1,
     flexDirection: "column",
-    backgroundColor: colors.white
+    backgroundColor: colors.white,
   },
   profileWrapper: {
     flex: 1,
@@ -16,7 +16,7 @@ export default StyleSheet.create({
   profileHeader: {
     flex: 1,
     backgroundColor: colors.lighterGrey,
-    marginBottom: 80
+    marginBottom: 80,
   },
   profileHeaderImage: {
     width: 120,
@@ -24,40 +24,39 @@ export default StyleSheet.create({
     borderRadius: 120,
     overflow: "hidden",
     bottom: -60,
-    backgroundColor: 'lightgrey',
+    backgroundColor: "lightgrey",
     // marginTop: -60,
-    alignSelf: "center"
+    alignSelf: "center",
   },
   profileBody: {
-    paddingBottom: 40
+    paddingBottom: 40,
   },
   text: {
     color: colors.black,
     fontSize: 30,
     // fontWeight: "bold",
-    fontFamily: fonts.primaryFontMedium
+    fontFamily: fonts.primaryFontMedium,
   },
   profileFormGroup: {
     paddingHorizontal: 30,
-    paddingVertical: 15
+    paddingVertical: 15,
   },
   profileFormGroupInline: {
-    flexDirection: "row"
+    flexDirection: "row",
   },
   profileFormGroupLabel: {
     fontFamily: fonts.primaryFontMedium,
     color: colors.secondaryColor,
     marginBottom: 6,
-    fontSize: 12
+    fontSize: 12,
   },
   profileFormInput: {
     flex: 1,
-    fontFamily: fonts.primaryFontMedium
+    fontFamily: fonts.primaryFontMedium,
   },
-  changePwBtn: {
-  },
+  changePwBtn: {},
   changePwBtnLabel: {
-    color: colors.primaryColor
+    color: colors.primaryColor,
   },
   logoutBtn: {
     flexDirection: "row",
@@ -68,12 +67,22 @@ export default StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 20,
     borderRadius: 6,
-    alignItems: 'center'
+    alignItems: "center",
   },
   logoutBtnLabel: {
     fontFamily: fonts.primaryFontMedium,
     color: colors.white,
     marginLeft: 5,
-    fontSize: 13
-  }
+    fontSize: 13,
+  },
+  resetPwdBtn: {
+    width: "100%",
+    paddingVertical: 15,
+    alignItems: "center",
+  },
+  resetPwdBtnText: {
+    fontFamily: fonts.primaryFontMedium,
+    color: colors.primaryColor,
+    // fontSize:
+  },
 });

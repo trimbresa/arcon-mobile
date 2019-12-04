@@ -19,6 +19,7 @@ import NoMsgItem from "../../components/Lists/NoMsgItem";
 // Styles
 import messagesStyles from "./assets/styles/messagesStyles";
 import * as colors from "../../global/styles/colors";
+import {primaryFontBold} from "../../global/styles/fonts";
 
 import data from "./messages.json";
 import StorageManager from "../../helpers/StorageManager";
@@ -26,6 +27,9 @@ import StorageManager from "../../helpers/StorageManager";
 class Messages extends Component {
   static navigationOptions = ({navigation}) => {
     return {
+      headerTitleStyle: {
+        fontFamily: primaryFontBold,
+      },
       title: "Messages",
       headerRight: <NotificationsBtn navigation={navigation} />,
     };
@@ -105,10 +109,10 @@ const MessagesRouter = createStackNavigator(
   },
   {
     initialRouteName: "Messages",
-    mode: "modal",
-    navigationOptions: {
-      tabBarVisible: false,
-    },
+    // mode: "modal",
+    // navigationOptions: {
+    //   tabBarVisible: false,
+    // },
   },
 );
 

@@ -9,4 +9,5 @@
   "mySchedule": "/schedules/self",
   "schedules": "/schedules",
   "messages": "/messages",
+  "resetPassword": "/users/change-password"
 }

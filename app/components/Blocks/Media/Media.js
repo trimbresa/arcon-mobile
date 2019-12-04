@@ -59,6 +59,8 @@ const Video = ({networkData, isLink}) => {
       style={mediaStyles.video}>
       {isYoutube ? (
         <YouTube
+          play={false}
+          resumePlayAndroid={false}
           pointerEvents="none"
           apiKey="AIzaSyBMxxIFFomHF2E-14f-mULWcsXqQQMmSPs"
           videoId={videoId}

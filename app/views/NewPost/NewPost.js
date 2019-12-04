@@ -1,6 +1,6 @@
 import React, {Component, Fragment} from "react";
 import {connect} from "react-redux";
-import {SafeAreaView, StatusBar, ScrollView} from "react-native";
+import {SafeAreaView, StatusBar, View} from "react-native";
 import {createStackNavigator} from "react-navigation-stack";
 import * as actions from "./actions";
 
@@ -25,16 +25,17 @@ class NewPost extends Component {
       <Fragment>
         <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
         <SafeAreaView style={newPostStyles.newPostSafeArea}>
-          <ScrollView
-            keyboardShouldPersistTaps="handled"
-            keyboardDismissMode="on-drag"
+          <View
+            // keyboardShouldPersistTaps="handled"
+            // keyboardDismissMode="on-drag"
+            style={{flex: 1}}
             contentContainerStyle={{flex: 1}}>
             <NewPostForm
               locations={this.props.dashboardReducer.locations}
               onSubmit={this.props.createNewPost}
               requestSubmitting={this.props.newPostReducer.isSubmitting}
             />
-          </ScrollView>
+          </View>
         </SafeAreaView>
       </Fragment>
     );

@@ -12,11 +12,10 @@ export default function NotificationsBtn(props) {
   return (
     <View style={notificationsBtnStyles.wrapper}>
       <TouchableOpacity
-        // onPress={() => props.navigation.navigate("Notifications")}
-        onPress={() => console.log("...")}>
+        onPress={() => props.navigation.navigate("Notifications")}>
         <Ionicons
-          name="ios-notifications-outline"
-          size={30}
+          name="ios-notifications"
+          size={25}
           color={colors.secondaryColor}
         />
       </TouchableOpacity>

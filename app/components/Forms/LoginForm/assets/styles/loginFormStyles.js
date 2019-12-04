@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import {StyleSheet} from "react-native";
 
 // Colors
 import * as colors from "../../../../../global/styles/colors";
@@ -6,36 +6,37 @@ import * as fonts from "../../../../../global/styles/fonts";
 
 export default StyleSheet.create({
   loginFormWrapper: {
-    paddingLeft: 20
+    paddingLeft: 20,
   },
   loginFormTitle: {
     fontFamily: fonts.primaryFontLight,
     fontSize: 40,
     marginBottom: 60,
-    color: colors.white
+    color: colors.white,
   },
   loginFieldsWrapper: {
     backgroundColor: colors.white,
     paddingVertical: 20,
     paddingBottom: 50,
     borderTopLeftRadius: 15,
-    borderBottomLeftRadius: 15
+    borderBottomLeftRadius: 15,
   },
   loginFieldsGroup: {
-    paddingHorizontal: 40
+    paddingHorizontal: 40,
   },
   field: {
+    fontFamily: fonts.primaryFontMedium,
     height: 60,
     color: colors.black,
-    backgroundColor: colors.white
+    backgroundColor: colors.white,
   },
   fieldMsg: {
     fontFamily: fonts.primaryFontMedium,
-    color: colors.red
+    color: colors.red,
   },
   submitBtnWrapper: {
     flexDirection: "row",
-    justifyContent: "flex-end"
+    justifyContent: "flex-end",
   },
   submitBtn: {
     flexDirection: "row",
@@ -49,14 +50,14 @@ export default StyleSheet.create({
     paddingRight: 15,
     justifyContent: "space-between",
     alignItems: "center",
-    top: -25
+    top: -25,
   },
   submitBtnInProgress: {
-    backgroundColor: colors.secondaryColor
+    backgroundColor: colors.secondaryColor,
   },
   submitBtnLabel: {
     fontFamily: fonts.primaryFontMedium,
     color: colors.white,
-    fontSize: 16
-  }
+    fontSize: 16,
+  },
 });

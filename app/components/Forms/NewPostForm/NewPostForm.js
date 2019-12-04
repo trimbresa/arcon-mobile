@@ -97,10 +97,9 @@ const NewPostForm = ({locations, onSubmit, requestSubmitting, navigation}) => {
               value={values.note}
               placeholder="Want to share something?"
               style={newPostFormStyles.newPostInput}
-              onChangeText={handleChange("note")}
-              onBlur={handleBlur("note")}
+              onChangeText={t => setFieldValue("note", t)}
               multiline={true}
-              autoCorrect={false}
+              // autoCorrect={false}
             />
 
             <Attachment
