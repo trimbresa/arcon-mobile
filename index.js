@@ -8,14 +8,13 @@ import {Provider} from "react-redux";
 
 import MainRouter from "./app/routers/MainRouter";
 import store from "./app/store";
+// import {firebase} from "@react-native-firebase/messaging";
 
 import FlashMessage from "react-native-flash-message";
 
-if (__DEV__) {
-  import("./ReactotronConfig").then(() => console.log("Reactotron Configured"));
-}
-
 const MainRouterWithStore = () => {
+  // messaging
+  // console.dir(firebase.messaging);
   return (
     <Provider store={store}>
       <View />

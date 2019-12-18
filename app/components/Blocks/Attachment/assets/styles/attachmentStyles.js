@@ -6,12 +6,9 @@ import * as fonts from "../../../../../global/styles/fonts";
 
 export default StyleSheet.create({
   attachmentsWrapper: {
-    flex: 1,
     flexDirection: "row",
     alignItems: "center",
-    maxHeight: 40,
-    minHeight: 40,
-    height: 40,
+    height: 35,
   },
   attachment: {
     flexDirection: "row",

@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import {
   View,
   Text,
@@ -18,7 +18,7 @@ import RNVideo from "react-native-video";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import mediaStyles from "./assets/styles/mediaStyles";
 
-const Video = ({networkData, isLink}) => {
+const Video = ({networkData, isLink, style}) => {
   const [paused, setPaused] = useState(true);
   const [visible, setVisible] = useState(true);
 
@@ -30,11 +30,13 @@ const Video = ({networkData, isLink}) => {
 
   if (isYoutube) {
     videoId = networkData.uri.split("?")[1];
+    if (!videoId) return null;
     videoId = videoId.split("&")[0].split("=")[1];
   }
 
   if (isVimeo) {
     videoId = networkData.uri.split("vimeo.com/")[1];
+    if (!videoId) return null;
   }
 
   const timeout = () => {
@@ -56,7 +58,7 @@ const Video = ({networkData, isLink}) => {
     <TouchableOpacity
       activeOpacity={1}
       onPress={onPressBackground}
-      style={mediaStyles.video}>
+      style={[mediaStyles.video, style]}>
       {isYoutube ? (
         <YouTube
           play={false}
@@ -130,19 +132,22 @@ const Video = ({networkData, isLink}) => {
   );
 };
 
-const Media = ({attachment}) => {
+const Media = ({attachment, style, mediaStyle}) => {
   const [token, setToken] = useState(null);
 
-  useEffect(() => {
-    const applyToken = async () => {
-      const token = await StorageManager.get("token");
-      setToken(token);
-    };
-
-    applyToken();
+  const applyToken = useCallback(async () => {
+    if (token !== null) return;
+    const token = await StorageManager.get("token");
+    setToken(token);
   }, []);
 
-  const download = async () => {
+  useEffect(() => {
+    applyToken();
+  }, [applyToken]);
+
+  let media = <View />;
+
+  const download = useCallback(async () => {
     try {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
@@ -169,9 +174,11 @@ const Media = ({attachment}) => {
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [attachment, token]);
 
-  let media = <View />;
+  if (!attachment) {
+    return media;
+  }
 
   const uri = ["video", "image"].includes(attachment.type)
     ? `${aws_bucket}/${attachment.path}`
@@ -187,6 +194,8 @@ const Media = ({attachment}) => {
     attachment.type.indexOf("file") != -1
       ? attachment.type.split("/")[0]
       : attachment.type;
+
+  let isVideo = false;
 
   switch (type) {
     case "file":
@@ -207,7 +216,11 @@ const Media = ({attachment}) => {
       media = (
         <TouchableOpacity
           activeOpacity={0.8}
-          style={[mediaStyles.documentWrapper, {backgroundColor: color}]}
+          style={[
+            mediaStyles.documentWrapper,
+            {backgroundColor: color},
+            mediaStyle,
+          ]}
           onPress={download}>
           <Icon name={`file-${fileType}`} color="white" size={16} />
           <Text numberOfLines={1} style={mediaStyles.documentName}>
@@ -220,15 +233,17 @@ const Media = ({attachment}) => {
 
     case "image":
       media = (
-        <View style={mediaStyles.postBodyMedia}>
+        <View style={[mediaStyles.postBodyMedia, mediaStyle]}>
           <ImageBackground source={{uri}} style={mediaStyles.image} />
         </View>
       );
       break;
 
     default:
+      isVideo = true;
       media = (
         <Video
+          style={mediaStyle}
           isLink={isLink}
           networkData={{uri, headers}}
           attachment={attachment}
@@ -255,7 +270,12 @@ const Media = ({attachment}) => {
     // break;
   }
 
-  return <View style={mediaStyles.wrapper}>{media}</View>;
+  return (
+    <View
+      style={[mediaStyles.wrapper, isVideo && mediaStyles.videoWrapper, style]}>
+      {media}
+    </View>
+  );
 };
 
 export default Media;

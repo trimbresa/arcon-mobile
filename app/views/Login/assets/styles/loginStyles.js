@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import {StyleSheet} from "react-native";
 
 // Globals
 import * as colors from "../../../../global/styles/colors";
@@ -12,7 +12,7 @@ export default StyleSheet.create({
   loginWrapper: {
     flex: 1,
     justifyContent: "center",
-    paddingBottom: 60
+    paddingBottom: 60,
   },
   loginInnerWrapper: {
     backgroundColor: colors.blackFade,

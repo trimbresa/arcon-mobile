@@ -5,77 +5,85 @@ import {
   TouchableHighlight,
   View,
   Text,
-  ImageBackground
+  ImageBackground,
 } from "react-native";
 import Feather from "react-native-vector-icons/Feather";
 import moment from "moment";
-
 
 // Styles
 import msgItemStyles from "./assets/styles/msgItemStyles";
 import * as colors from "../../../global/styles/colors";
 
 // Images
-const avatar = require("./assets/images/avatar.png");
+const avatarPlaceholder = require("./assets/images/avatar.png");
 
-function MsgItem(props) {
+const MsgItem = ({
+  onPress,
+  userId,
+  message: {avatar, isOnline, isRead, createdAt, body, badge, you, users},
+}) => {
+  const title = users
+    ? users
+        .filter(u => u.id !== userId)
+        .map(u => `${u.firstName} ${u.lastName}`)
+        .join(", ")
+    : "";
+  const timestamp = moment(createdAt).fromNow();
+
   return (
     <TouchableHighlight
       style={msgItemStyles.msgItemWrapper}
-      underlayColor={colors.lightGrey}
-      onPress={props.onPress}
-    >
-      <>
-        <View
-          style={msgItemStyles.avatarWrapper}
-        >
-          {
-            !props.avatar ? (
-              <ImageBackground
-                source={avatar}
-                style={msgItemStyles.avatar}
-              />
-            ) : (
-              <ImageBackground
-                source={{
-                  uri: props.avatar
-                }}
-                style={msgItemStyles.avatar}
-              />
-            )
-          }
-          { props.isOnline && (<View style={msgItemStyles.onlineBadge} />) }
+      underlayColor={colors.primaryColorFade}
+      onPress={onPress}>
+      <React.Fragment>
+        <View style={msgItemStyles.avatarWrapper}>
+          {!avatar ? (
+            <ImageBackground
+              source={avatarPlaceholder}
+              style={msgItemStyles.avatar}
+            />
+          ) : (
+            <ImageBackground
+              source={{
+                uri: avatar,
+              }}
+              style={msgItemStyles.avatar}
+            />
+          )}
+          {isOnline && <View style={msgItemStyles.onlineBadge} />}
         </View>
-        <View
-          style={msgItemStyles.msgItemText}
-        >
-          <Text
-            style={[msgItemStyles.msgItemTitle, props.unread && msgItemStyles.msgItemTitleUnread]}
-            numberOfLines={1}
-          >{props.title}</Text>
-          <Text
-            style={msgItemStyles.msgItemLastMsg}
-            numberOfLines={1}
-          >{props.lastMsg}</Text>
-        </View>
-        <View
-          style={msgItemStyles.msgItemActions}
-        >
-          <Text style={msgItemStyles.timestamp}>
-            { moment(props.timestamp).fromNow(true) }
-          </Text>
-          {
-            props.badge > 0 && (
+
+        <View style={{flex: 1}}>
+          <View style={[msgItemStyles.msgRow, msgItemStyles.msgRowFirst]}>
+            <Text
+              style={[
+                msgItemStyles.msgItemTitle,
+                !isRead && msgItemStyles.msgItemTitleUnread,
+              ]}
+              numberOfLines={1}>
+              {title}
+            </Text>
+
+            <Text style={msgItemStyles.timestamp}>{timestamp}</Text>
+          </View>
+
+          <View style={msgItemStyles.msgRow}>
+            <Text style={msgItemStyles.msgItemLastMsg} numberOfLines={1}>
+              {you === "You:" && "You: "}
+              {body}
+            </Text>
+
+            {badge > 0 && (
               <View style={msgItemStyles.badge}>
-                <Text style={msgItemStyles.badgeNumber}>{props.badge}</Text>
+                <Text style={msgItemStyles.badgeNumber}>{badge}</Text>
               </View>
-            )
-          }
+            )}
+          </View>
         </View>
-      </>
+      </React.Fragment>
     </TouchableHighlight>
-  )
-}
+  );
+};
 
 MsgItem.defaultProps = {
   avatar: "",
@@ -83,8 +91,8 @@ MsgItem.defaultProps = {
   lastMsg: "Last message...",
   timeStamp: `${new Date()}`,
   badge: 0,
-  isOnline: false,
-  onPress: () => alert("Clicked")
+  isOnline: true,
+  onPress: () => alert("Clicked"),
 };
 
 MsgItem.propTypes = {
@@ -94,7 +102,7 @@ MsgItem.propTypes = {
   timeStamp: PropTypes.string,
   badge: PropTypes.number,
   isOnline: PropTypes.bool,
-  onPress: PropTypes.func
+  onPress: PropTypes.func,
 };
 
 export default MsgItem;

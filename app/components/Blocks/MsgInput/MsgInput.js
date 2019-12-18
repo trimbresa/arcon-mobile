@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import * as yup from "yup";
 
 // Styles
 import msgInputStyles from "./assets/styles/msgInputStyles";
@@ -19,17 +20,28 @@ const MsgInput = ({isSubmitting, icon, onSend}) => {
   const [note, setNote] = useState("");
 
   const onSendLocal = useCallback(() => {
-    if (note) {
-      onSend({note, attachment: attachment ? attachment.data : attachment});
+    const submit = () => {
+      onSend({note, attachment});
       setNote("");
       setAttachment(false);
+    };
+
+    if (note) {
+      if (attachment.type === "url")
+        yup
+          .string()
+          .url()
+          .validate(attachment.url)
+          .then(submit)
+          .catch(() =>
+            FlashMessageHelper.dangerMessage("Please enter a valid url"),
+          );
+      else submit();
     } else
       FlashMessageHelper.dangerMessage(
         "Please write a comment before you submit",
       );
   }, [note, attachment, onSend]);
-
-  console.log(attachment);
 
   return (
     <View style={msgInputStyles.wrapper}>
@@ -53,8 +65,9 @@ const MsgInput = ({isSubmitting, icon, onSend}) => {
           editable={!isSubmitting}
           onChangeText={t => setNote(t)}
         />
-        <View style={{flexDirection: "row", alignItems: "center"}}>
+        <View style={msgInputStyles.actionsWrapper}>
           <TouchableOpacity
+            disabled={note.length === 0}
             onPress={onSendLocal}
             style={msgInputStyles.sendBtn}>
             {isSubmitting ? (
@@ -63,7 +76,7 @@ const MsgInput = ({isSubmitting, icon, onSend}) => {
               <Ionicons
                 name={icon ? icon : "ios-send"}
                 size={28}
-                color={colors.primaryColor}
+                color={note.length > 0 ? colors.primaryColor : colors.grey}
               />
             )}
           </TouchableOpacity>

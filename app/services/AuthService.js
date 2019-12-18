@@ -17,13 +17,34 @@ class AuthService extends BaseService {
     });
   }
 
-  resetPassword = (oldPass, newPass) => {
+  changePassword = (oldPass, newPass) => {
     return this.apiPost({
-      url: api.resetPassword,
+      url: api.changePassword,
       data: {
         password: oldPass,
         newPassword: newPass,
       },
+    });
+  };
+
+  askForPasswordReset = data => {
+    return this.apiPost({
+      url: api.askForPasswordReset,
+      data,
+    });
+  };
+
+  verifyCode = data => {
+    return this.apiPost({
+      url: api.verifyCode,
+      data,
+    });
+  };
+
+  resetPassword = data => {
+    return this.apiPut({
+      url: api.resetPassword,
+      data,
     });
   };
 }

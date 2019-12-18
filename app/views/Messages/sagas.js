@@ -10,16 +10,27 @@ function* watchMessages() {
   yield takeEvery(constants.FETCHED_MESSAGES, fetchMessagesAsync);
 }
 
-function* fetchMessagesAsync() {
+function* fetchMessagesAsync({value: {page, refreshing}}) {
   try {
     yield put(dashboardActions.requestMessages());
     const data = yield call(async () => {
-      return MessagesService.fetchMessages().then(res => {
+      return MessagesService.fetchMessages({
+        page,
+        limit: 10,
+        order: "desc",
+      }).then(res => {
         return res.data.receive;
       });
     });
-    yield put(dashboardActions.requestMessagesSuccess(data));
+    yield put(
+      dashboardActions.requestMessagesSuccess({
+        messages: data,
+        refreshing,
+        haveAllMessagesLoaded: data.length < 10,
+      }),
+    );
   } catch (error) {
+    console.log(error);
     yield put(dashboardActions.requestMessagesError());
   }
 }

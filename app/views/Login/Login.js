@@ -13,33 +13,37 @@ import bgImage from "./assets/images/gym.jpg";
 
 import AuthService from "../../services/AuthService";
 import StorageManager from "../../helpers/StorageManager";
+import FlashMessageHelper from "../../helpers/FlashMessageHelper";
 
 class Login extends Component {
   static navigationOptions = {
     title: "Login",
   };
 
-  authenticate = values => {
-    return AuthService.login(values.employeeCode, values.password)
-      .then(async res => {
-        if (res.data) {
-          const {token, user} = res.data;
-          await StorageManager.set("token", token);
-          await StorageManager.set("user", user);
-
-          return true;
-        } else {
-          alert("Couldn't log you in. Please try again later!");
-        }
-      })
-      .catch(err => {
-        console.log(err);
-        if (err.response && err.response.data) {
-          alert(err.response.data);
-        } else {
-          alert("Network error!");
-        }
-      });
+  authenticate = async values => {
+    try {
+      const res = await AuthService.login(values.employeeCode, values.password);
+      if (res.data) {
+        const {token, user} = res.data;
+        await StorageManager.set("token", token);
+        await StorageManager.set("user", user);
+        this.props.navigation.navigate("AuthLoading");
+        return true;
+      } else {
+        FlashMessageHelper.dangerMessage(
+          "Couldn't log you in. Please try again later!",
+        );
+        return false;
+      }
+    } catch (err) {
+      console.log(err);
+      if (err.response && err.response.data) {
+        FlashMessageHelper.dangerMessage(err.response.data);
+      } else {
+        FlashMessageHelper.dangerMessage("Network error!");
+      }
+      return false;
+    }
   };
 
   render() {

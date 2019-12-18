@@ -22,7 +22,7 @@ import NotificationsBtn from "../../components/RouterElements/NotificationsBtn";
 import profileStyles from "./assets/styles/profileStyles";
 import * as colors from "../../global/styles/colors";
 import {primaryFontBold} from "../../global/styles/fonts";
-import ResetPassword from "./ResetPassword";
+import PasswordManager from "../../components/Forms/PasswordManager";
 
 class Profile extends Component {
   static navigationOptions = ({navigation}) => {
@@ -195,7 +195,7 @@ class Profile extends Component {
                   </Text>
                 </TouchableOpacity>
 
-                <ResetPassword
+                <PasswordManager
                   visible={this.state.resetPasswordVisible}
                   onRequestClose={() =>
                     this.setState({resetPasswordVisible: false})

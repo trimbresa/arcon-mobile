@@ -4,6 +4,10 @@ import * as Yup from "yup";
 import messages from "./messages";
 
 export default Yup.object().shape({
-  employeeCode: Yup.number().required(messages.employeeCode),
-  password: Yup.string().trim().required(messages.password),
+  employeeCode: Yup.number()
+    .typeError(messages.codeNotNumber)
+    .required(messages.employeeCode),
+  password: Yup.string()
+    .trim()
+    .required(messages.password),
 });

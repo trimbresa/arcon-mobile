@@ -135,14 +135,10 @@ class Dashboard extends Component {
                 <View />
               )
             }
-            contentInsetAdjustmentBehavior="automatic"
-            contentContainerStyle={dashboardStyles.contentWrapper}
             onEndReachedThreshold={0.01}
             onEndReached={e => {
               this.fetchPosts();
             }}
-            data={posts}
-            extraData={posts}
             refreshControl={
               <RefreshControl
                 progressViewOffset={30}
@@ -156,6 +152,10 @@ class Dashboard extends Component {
             }
             initialNumToRender={4}
             ListEmptyComponent={emptyComponent}
+            contentInsetAdjustmentBehavior="automatic"
+            contentContainerStyle={dashboardStyles.contentWrapper}
+            data={posts}
+            extraData={posts}
             renderItem={({item, index}) => {
               return (
                 <View style={dashboardStyles.postWrapper}>

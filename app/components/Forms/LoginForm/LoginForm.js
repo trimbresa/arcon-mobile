@@ -11,13 +11,13 @@ import initialValues from "./initialValues";
 import loginFormStyles from "./assets/styles/loginFormStyles";
 import * as colors from "../../../global/styles/colors";
 
-export default function LoginForm(props) {
+export default function LoginForm({authenticate, navigation}) {
   return (
     <Formik
       initialValues={initialValues({})}
-      onSubmit={async values => {
-        await props.authenticate(values);
-        props.navigation.navigate("AuthLoading");
+      onSubmit={async (values, {setSubmitting}) => {
+        const check = await authenticate(values);
+        setSubmitting(check);
       }}
       validationSchema={validationSchema}>
       {props => (
@@ -29,7 +29,9 @@ export default function LoginForm(props) {
           <View style={loginFormStyles.loginFieldsWrapper}>
             <View style={loginFormStyles.loginFieldsGroup}>
               <TextInput
-                onChangeText={props.handleChange("employeeCode")}
+                onChangeText={e => {
+                  props.handleChange("employeeCode")(e);
+                }}
                 onBlur={props.handleBlur("employeeCode")}
                 value={props.values.employeeCode}
                 placeholder="Employee Number"
@@ -41,9 +43,9 @@ export default function LoginForm(props) {
                 keyboardType="numeric"
               />
               <Text style={loginFormStyles.fieldMsg}>
-                {props.touched.email &&
-                  props.errors.email &&
-                  props.errors.email}
+                {props.touched.employeeCode &&
+                  props.errors.employeeCode &&
+                  props.errors.employeeCode}
               </Text>
             </View>
             <View style={loginFormStyles.loginFieldsGroup}>
@@ -73,14 +75,22 @@ export default function LoginForm(props) {
                 props.isSubmitting && loginFormStyles.submitBtnInProgress,
               ]}
               activeOpacity={0.9}>
-              <>
-                <Text style={loginFormStyles.submitBtnLabel}>
-                  {props.isSubmitting ? "Logging in..." : "Login"}
-                </Text>
-                <Feather name="arrow-right" color={colors.white} size={20} />
-              </>
+              <Text style={loginFormStyles.submitBtnLabel}>
+                {props.isSubmitting ? "Logging in..." : "Login"}
+              </Text>
+              <Feather name="arrow-right" color={colors.white} size={20} />
             </TouchableOpacity>
           </View>
+
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("ResetPassword", {
+                code: props.values.employeeCode,
+              })
+            }
+            style={loginFormStyles.forgotPsdWrapper}>
+            <Text style={loginFormStyles.forgotPsdText}>Forgot password</Text>
+          </TouchableOpacity>
         </View>
       )}
     </Formik>

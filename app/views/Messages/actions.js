@@ -1,22 +1,20 @@
 import * as constants from "./constants";
 
 export const requestMessages = () => {
-  return { type: constants.REQUESTED_MESSAGES }
+  return {type: constants.REQUESTED_MESSAGES};
 };
 
-export const requestMessagesSuccess = (data) => {
+export const requestMessagesSuccess = value => {
   return {
     type: constants.REQUESTED_MESSAGES_SUCCEEDED,
-    value: {
-      messages: data
-    }
-  }
+    value,
+  };
 };
 
 export const requestMessagesError = () => {
-  return { type: constants.REQUESTED_MESSAGES_FAILED }
+  return {type: constants.REQUESTED_MESSAGES_FAILED};
 };
 
-export const fetchMessages = () => {
-  return { type: constants.FETCHED_MESSAGES }
+export const fetchMessages = value => {
+  return {type: constants.FETCHED_MESSAGES, value};
 };

@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import {StyleSheet} from "react-native";
 
 // Colors
 import * as colors from "../../../../../global/styles/colors";
@@ -7,20 +7,20 @@ import * as fonts from "../../../../../global/styles/fonts";
 export default StyleSheet.create({
   msgItemWrapper: {
     flex: 1,
-    paddingVertical: 25,
-    paddingHorizontal: 20,
+    padding: 15,
     flexDirection: "row",
   },
   avatarWrapper: {
+    flex: 1,
+    maxWidth: 40,
+    maxHeight: 40,
     marginRight: 15,
-    borderRadius: 48,
-    backgroundColor: colors.lightGrey
   },
   avatar: {
-    width: 48,
-    height: 48,
-    borderRadius: 48,
+    backgroundColor: colors.lightGrey,
+    borderRadius: 40,
     overflow: "hidden",
+    flex: 1,
   },
   onlineBadge: {
     width: 12,
@@ -31,51 +31,55 @@ export default StyleSheet.create({
     right: 0,
     bottom: 0,
     borderWidth: 2,
-    borderColor: "white"
+    borderColor: "white",
   },
-  msgItemText: {
-    justifyContent: "center",
-    flex: 4,
+  msgRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    flex: 1,
+  },
+  msgRowFirst: {
+    marginBottom: 5,
   },
   msgItemTitle: {
     fontSize: 13,
     fontFamily: fonts.primaryFontSemiBold,
     color: colors.black,
-    marginBottom: 5
+    flex: 1,
+    marginRight: 5,
   },
   msgItemTitleUnread: {
     fontFamily: fonts.primaryFontBold,
-    color: colors.primaryColor
-  },
-  msgItemLastMsg: {
-    fontSize: 12,
-    color: colors.black,
-    fontFamily: fonts.primaryFontMedium
-  },
-  msgItemActions: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center"
+    color: colors.primaryColor,
   },
   timestamp: {
-    flex: 1,
+    flex: 0,
     fontFamily: fonts.primaryFontMedium,
-    color: colors.secondaryColor,
-    marginBottom: 5,
-    fontSize: 10
+    color: colors.grey,
+    fontSize: 10,
+  },
+  msgItemLastMsg: {
+    flex: 1,
+    fontSize: 12,
+    color: colors.darkGrey,
+    fontFamily: fonts.primaryFontMedium,
   },
   badge: {
+    flex: 1,
+    maxWidth: 17,
+    height: 17,
+    marginLeft: 5,
     fontFamily: fonts.primaryFontMedium,
     backgroundColor: colors.primaryColor,
-    width: 20,
-    height: 20,
     borderRadius: 20,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   badgeNumber: {
-    fontFamily: fonts.primaryFontMedium,
+    lineHeight: 13,
+    fontFamily: fonts.primaryFontSemiBold,
     color: colors.white,
-    fontSize: 11
-  }
+    fontSize: 11,
+  },
 });

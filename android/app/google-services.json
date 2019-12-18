@@ -1,42 +1,35 @@
 {
   "project_info": {
-    "project_number": "943247849750",
-    "firebase_url": "https://arcon-df898.firebaseio.com",
-    "project_id": "arcon-df898",
-    "storage_bucket": "arcon-df898.appspot.com"
+    "project_number": "268136767142",
+    "firebase_url": "https://arcon-mobile.firebaseio.com",
+    "project_id": "arcon-mobile",
+    "storage_bucket": "arcon-mobile.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:943247849750:android:d815fb727debd5cb43f837",
+        "mobilesdk_app_id": "1:268136767142:android:e20fb90e236846ae599e67",
         "android_client_info": {
           "package_name": "com.arcon"
         }
       },
       "oauth_client": [
         {
-          "client_id": "943247849750-os21cdvk2lttgppr0f0na09sht8jtjnq.apps.googleusercontent.com",
+          "client_id": "268136767142-ihk294qccgbmfgrh335iv3qnrbjkabq8.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDeEt1RLAnufSUXNqoHJ2JEdtLlUovYBp4"
+          "current_key": "AIzaSyAEKd2mFLSmgiOb5fxnoxUmjuXefd7Xh-c"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "943247849750-os21cdvk2lttgppr0f0na09sht8jtjnq.apps.googleusercontent.com",
+              "client_id": "268136767142-ihk294qccgbmfgrh335iv3qnrbjkabq8.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "943247849750-8or9ujcbt1bhra6hgdfpaatdee4k3acv.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "rv.reactjs.native.mobile.Arcon"
-              }
             }
           ]
         }

@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import {StyleSheet} from "react-native";
 
 // Globals
 import * as colors from "../../../../../global/styles/colors";
@@ -6,48 +6,77 @@ import * as fonts from "../../../../../global/styles/fonts";
 
 export default StyleSheet.create({
   wrapper: {
-    paddingHorizontal: 16,
-    paddingBottom: 5,
-    flexDirection: "row"
-  },
-  lastWrapper: {
-    marginTop: 20
-  },
-  avatarWrapper: {
-    paddingRight: 10,
-    alignSelf: "flex-end",
-    minWidth: 40
-  },
-  avatarRight: {
+    marginVertical: 2,
+    flexDirection: "row",
+    alignItems: "center",
     justifyContent: "flex-end",
   },
+  incomingWrapper: {
+    justifyContent: "flex-start",
+    marginLeft: 40,
+  },
+  lastIncomingWrapper: {
+    marginLeft: 0,
+  },
   avatar: {
-    width: 32,
-    height: 32,
-    borderRadius: 32
+    width: 30,
+    height: 30,
+    marginRight: 10,
+    borderRadius: 30,
+    backgroundColor: colors.lighterGrey,
+    overflow: "hidden",
   },
   textWrapper: {
+    alignItems: "flex-end",
     backgroundColor: colors.lightGrey,
-    paddingHorizontal: 15,
-    paddingVertical: 15,
-    borderRadius: 12,
-    flexShrink: 1
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 15,
+    flexShrink: 1,
+    maxWidth: "70%",
   },
-  lastTextOutWrapper: {
-    borderBottomLeftRadius: 0
+  incomingTextWrapper: {
+    borderTopLeftRadius: 4,
+    borderBottomLeftRadius: 4,
+    backgroundColor: colors.primaryColor,
+    marginRight: 5,
   },
-  lastTextInWrapper: {
-    borderBottomRightRadius: 0
+  outgoingTextWrapper: {
+    borderTopRightRadius: 4,
+    borderBottomRightRadius: 4,
+    marginLeft: 5,
   },
-  ingoingTxtWrapper: {
-    backgroundColor: colors.primaryColor
+  lastTextWrapper: {
+    borderBottomRightRadius: 15,
+    borderBottomLeftRadius: 15,
+  },
+  firstTextWrapper: {
+    borderTopRightRadius: 15,
+    borderTopLeftRadius: 15,
   },
   text: {
-    fontSize: 15,
-    fontFamily: fonts.primaryFontMedium
+    fontSize: 13,
+    fontFamily: fonts.primaryFontMedium,
   },
-  ingoingText: {
+  incomingText: {
     color: colors.white,
-    textAlign: "right"
-  }
+  },
+  timestamp: {
+    fontFamily: fonts.primaryFontMedium,
+    color: colors.grey,
+    fontSize: 9,
+    alignSelf: "flex-end",
+    marginBottom: 2,
+  },
+  dateIndicator: {
+    textAlign: "center",
+    fontFamily: fonts.primaryFontSemiBold,
+    marginVertical: 30,
+    paddingVertical: 3,
+    paddingHorizontal: 8,
+    borderRadius: 20,
+    backgroundColor: colors.primaryColorFade,
+    color: colors.primaryColor,
+    fontSize: 12,
+  },
 });

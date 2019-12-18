@@ -17,7 +17,6 @@ function* fetchPostsAsync({value: {pageNr, refresh}}) {
     yield put(dashboardActions.requestDashboard());
     const data = yield call(async () => {
       return DashboardService.fetchPosts(pageNr).then(res => {
-        // console.log(res);
         return res.data;
       });
     });
@@ -37,7 +36,6 @@ function* fetchLocationsAsync() {
   try {
     const data = yield call(async () => {
       return FilterService.getAllLocations().then(res => {
-        // console.log(res);
         return res.data;
       });
     });

@@ -6,9 +6,7 @@ import * as fonts from "../../../../../global/styles/fonts";
 
 export default StyleSheet.create({
   wrapper: {
-    flex: 1,
-    minHeight: 100,
-    maxHeight: 100,
+    flex: 0,
     width: "100%",
     paddingTop: 5,
     borderTopWidth: 1,
@@ -20,11 +18,16 @@ export default StyleSheet.create({
   input: {
     fontFamily: fonts.primaryFontMedium,
     flex: 1,
-    paddingTop: 15,
-    padding: 15,
+    height: 45,
+    paddingLeft: 15,
+  },
+  actionsWrapper: {
+    flexDirection: "row",
+    flex: 0,
+    alignItems: "center",
   },
   sendBtn: {
-    paddingHorizontal: 15,
+    paddingHorizontal: 10,
     alignSelf: "center",
   },
 });

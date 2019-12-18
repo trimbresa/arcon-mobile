@@ -7,7 +7,11 @@
   "postComment": "/posts/reply",
   "todaysSchedules": "/dashboard/schedules",
   "mySchedule": "/schedules/self",
-  "schedules": "/schedules",
+  "employeeSchedules": "/schedules/grouped",
+  "departmentSchedules": "/schedules/my-department/grouped",
   "messages": "/messages",
-  "resetPassword": "/users/change-password"
+  "changePassword": "/users/change-password",
+  "askForPasswordReset": "/authenticate/forgot-password",
+  "verifyCode": "/authenticate/verify-code",
+  "resetPassword": "/authenticate/reset-password"
 }

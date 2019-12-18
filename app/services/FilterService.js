@@ -1,6 +1,11 @@
 import BaseService from "./BaseService";
 
 class FilterService extends BaseService {
+  searchUser(query) {
+    return this.apiGet({
+      url: `/users/search/${query}`,
+    });
+  }
   getAllLocations() {
     return this.apiGet({
       url: `/employees/filter/locations`,

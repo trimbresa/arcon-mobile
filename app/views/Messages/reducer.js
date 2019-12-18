@@ -4,6 +4,8 @@ const initialState = {
   messages: [],
   loading: true,
   error: false,
+  refreshing: false,
+  haveAllMessagesLoaded: false,
 };
 
 export default (state = initialState, action) => {
@@ -11,21 +13,25 @@ export default (state = initialState, action) => {
     case constants.FETCHED_MESSAGES:
       return {
         ...state,
-        messages: [],
+        ...action.value,
+        messages: action.value.refreshing ? [] : state.messages,
+        loading: true,
       };
     case constants.REQUESTED_MESSAGES:
       return {
         ...state,
-        messages: [],
-        loading: true,
         error: false,
       };
     case constants.REQUESTED_MESSAGES_SUCCEEDED:
       return {
         ...state,
-        messages: action.value.messages,
+        messages: action.value.refreshing
+          ? action.value.messages
+          : [...state.messages, ...action.value.messages],
         loading: false,
-        error: false
+        error: false,
+        refreshing: false,
+        haveAllMessagesLoaded: action.value.haveAllMessagesLoaded,
       };
     case constants.REQUESTED_MESSAGES_FAILED:
       return {

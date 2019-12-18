@@ -100,7 +100,14 @@ const Attachment = ({
                 data: {...media, filename},
                 info,
               });
-              onChangeAttachment({...media, filename});
+
+              const splitFilename = filename.split(".");
+              const type =
+                media.type ||
+                `image/${splitFilename[splitFilename.length - 1]}`;
+
+              console.log(media, filename);
+              onChangeAttachment({...media, type, filename});
             } else console.log(media);
           },
         );

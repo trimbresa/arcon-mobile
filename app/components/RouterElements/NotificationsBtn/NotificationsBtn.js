@@ -9,7 +9,9 @@ import * as colors from "../../../global/styles/colors";
 import notificationsBtnStyles from "./assets/styles/notificationsBtnStyles";
 
 export default function NotificationsBtn(props) {
-  return (
+  return true ? (
+    <View />
+  ) : (
     <View style={notificationsBtnStyles.wrapper}>
       <TouchableOpacity
         onPress={() => props.navigation.navigate("Notifications")}>
